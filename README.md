@@ -1,9 +1,8 @@
 # README
-
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
+* Set up
+- Download the repo
+- Install dependencies with > bundle
+- Start the server with > foreman start
 
 * Ruby version
 
@@ -21,5 +20,3 @@ Things you may want to cover:
 
 * Deployment instructions
 
-* ...
-# infbase
