@@ -1,11 +1,18 @@
 import Vue from 'vue/dist/vue.esm'
-import App from '../app.vue'
+import App from '../src/App.vue'
+import VueRouter from 'vue-router'
+import router from "../src/router";
+import Argon from "../src/plugins/argon-kit";
+
+Vue.config.productionTip = false;
+
+Vue.use(VueRouter);
+Vue.use(Argon);
 
 document.addEventListener('DOMContentLoaded', () => {
-  var app = new Vue({
-    el: '#app',
-    data: {
-      message: 'Hello Vue!'
-    }
-  })
+  new Vue({
+    router,
+    render: h => h(App)
+  }).$mount("#app");
 })
+
