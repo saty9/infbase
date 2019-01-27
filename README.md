@@ -1,8 +1,8 @@
 # README
 * Set up
-- Download the repo
-- Install dependencies with > bundle
-- Start the server with > foreman start
+	-- Download the repo
+	-- Install dependencies with > bundle
+	-- Start the server with > foreman start
 
 * Ruby version
 
