@@ -1,0 +1,23 @@
+# == Schema Information
+#
+# Table name: questions
+#
+#  id         :bigint(8)        not null, primary key
+#  title      :string
+#  body       :text
+#  posted     :date
+#  anonymous  :boolean
+#  user_id    :bigint(8)
+#  course_id  :bigint(8)
+#  session_id :bigint(8)
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
+class Question < ApplicationRecord
+  belongs_to :user
+  belongs_to :course
+  belongs_to :session
+  has_many :answers
+
+end

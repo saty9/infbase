@@ -66,4 +66,6 @@ Rails.application.configure do
 
   # "Your Yarn packages are out of date!" fix
   config.webpacker.check_yarn_integrity = false
+
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 end

@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  body: MyText
+  posted: 2019-01-26
+  anonymous: false
+  user: one
+  course: one
+  session: one
+
+two:
+  title: MyString
+  body: MyText
+  posted: 2019-01-26
+  anonymous: false
+  user: two
+  course: two
+  session: two
