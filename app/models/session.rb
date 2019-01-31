@@ -10,4 +10,5 @@
 
 class Session < ApplicationRecord
   has_many :questions
+  belongs_to :tutor, class_name: User
 end
