@@ -1,10 +1,10 @@
-class SessionsController < ApplicationController
+class TeachingSessionsController < ApplicationController
   before_action :set_session, only: [:show, :update, :destroy]
 
   # GET /sessions
   # GET /sessions.json
   def index
-    @sessions = Session.all
+    @sessions = TeachingSession.all
   end
 
   # GET /sessions/1
@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
   # POST /sessions
   # POST /sessions.json
   def create
-    @session = Session.new(session_params)
+    @session = TeachingSession.new(session_params)
 
     if @session.save
       render :show, status: :created, location: @session
@@ -43,7 +43,7 @@ class SessionsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_session
-      @session = Session.find(params[:id])
+      @session = TeachingSession.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

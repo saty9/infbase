@@ -9,7 +9,7 @@
 #  tutor_id   :bigint(8)
 #
 
-class Session < ApplicationRecord
+class TeachingSession < ApplicationRecord
   has_many :questions
   belongs_to :tutor, class_name: :user
 end

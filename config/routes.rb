@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resources :answers
   resources :questions
-  resources :sessions
+  resources :teaching_sessions
   resources :course_members
   resources :courses
   devise_for :users
