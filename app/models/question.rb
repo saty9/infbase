@@ -5,7 +5,6 @@
 #  id         :bigint(8)        not null, primary key
 #  title      :string
 #  body       :text
-#  posted     :date
 #  anonymous  :boolean
 #  user_id    :bigint(8)
 #  course_id  :bigint(8)

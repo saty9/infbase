@@ -20,4 +20,3 @@
 
 * Deployment instructions
 
-# iq-test

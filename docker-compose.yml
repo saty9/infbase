@@ -1,0 +1,26 @@
+version: '3'
+services:
+  web:
+    build:
+      context: .
+      dockerfile:  ./Dockerfile
+    command: bash -c "bundle exec rake db:migrate && foreman start"
+    ports:
+      - "3000:3000"
+      - "3035:3035"
+    links:
+      - database:database
+    environment:
+      - DATABASE_PASSWORD
+      - DATABASE_USER=postgres
+      - DOCKERIZED=true
+    depends_on:
+      - database
+    restart: always
+  database:
+    image: "postgres:latest"
+    environment:
+      POSTGRES_PASSWORD: "${DATABASE_PASSWORD}"
+      POSTGRES_DB: "inf_base_development"
+      POSTGRES_USER: "infbase"
+    restart: always
