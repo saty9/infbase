@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  teaching_session: one
+  user: one
+
+two:
+  teaching_session: two
+  user: two

@@ -10,6 +10,8 @@
 #
 
 class TeachingSession < ApplicationRecord
-  has_many :questions
   belongs_to :tutor, class_name: :user
+
+  has_many :questions
+  has_many :interests
 end

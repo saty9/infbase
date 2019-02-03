@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_31_163137) do
+ActiveRecord::Schema.define(version: 2019_02_03_142634) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,9 +18,9 @@ ActiveRecord::Schema.define(version: 2019_01_31_163137) do
   create_table "answers", force: :cascade do |t|
     t.text "body"
     t.bigint "user_id"
+    t.bigint "question_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "question_id"
     t.index ["question_id"], name: "index_answers_on_question_id"
     t.index ["user_id"], name: "index_answers_on_user_id"
   end
@@ -41,26 +41,70 @@ ActiveRecord::Schema.define(version: 2019_01_31_163137) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "expertises", force: :cascade do |t|
+    t.bigint "course_id"
+    t.bigint "tutor_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_expertises_on_course_id"
+    t.index ["tutor_id"], name: "index_expertises_on_tutor_id"
+  end
+
+  create_table "interests", force: :cascade do |t|
+    t.bigint "teaching_session_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["teaching_session_id"], name: "index_interests_on_teaching_session_id"
+    t.index ["user_id"], name: "index_interests_on_user_id"
+  end
+
   create_table "questions", force: :cascade do |t|
     t.string "title"
     t.text "body"
     t.boolean "anonymous"
     t.bigint "user_id"
     t.bigint "course_id"
-    t.bigint "session_id"
+    t.bigint "teaching_session_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["course_id"], name: "index_questions_on_course_id"
-    t.index ["session_id"], name: "index_questions_on_session_id"
+    t.index ["teaching_session_id"], name: "index_questions_on_teaching_session_id"
     t.index ["user_id"], name: "index_questions_on_user_id"
   end
 
-  create_table "sessions", force: :cascade do |t|
-    t.time "start_time"
+  create_table "reports", force: :cascade do |t|
+    t.integer "students"
+    t.text "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.bigint "topic_id"
+    t.bigint "report_id"
+    t.bigint "question_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_id"], name: "index_tags_on_question_id"
+    t.index ["report_id"], name: "index_tags_on_report_id"
+    t.index ["topic_id"], name: "index_tags_on_topic_id"
+  end
+
+  create_table "teaching_sessions", force: :cascade do |t|
+    t.time "start_time"
     t.bigint "tutor_id"
-    t.index ["tutor_id"], name: "index_sessions_on_tutor_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tutor_id"], name: "index_teaching_sessions_on_tutor_id"
+  end
+
+  create_table "topics", force: :cascade do |t|
+    t.string "name"
+    t.bigint "course_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_topics_on_course_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -79,8 +123,16 @@ ActiveRecord::Schema.define(version: 2019_01_31_163137) do
   add_foreign_key "answers", "users"
   add_foreign_key "course_members", "courses"
   add_foreign_key "course_members", "users"
+  add_foreign_key "expertises", "courses"
+  add_foreign_key "expertises", "users", column: "tutor_id"
+  add_foreign_key "interests", "teaching_sessions"
+  add_foreign_key "interests", "users"
   add_foreign_key "questions", "courses"
-  add_foreign_key "questions", "sessions"
+  add_foreign_key "questions", "teaching_sessions"
   add_foreign_key "questions", "users"
-  add_foreign_key "sessions", "users", column: "tutor_id"
+  add_foreign_key "tags", "questions"
+  add_foreign_key "tags", "reports"
+  add_foreign_key "tags", "topics"
+  add_foreign_key "teaching_sessions", "users", column: "tutor_id"
+  add_foreign_key "topics", "courses"
 end

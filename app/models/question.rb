@@ -17,6 +17,7 @@ class Question < ApplicationRecord
   belongs_to :user
   belongs_to :course
   belongs_to :teaching_session
+  
   has_many :answers
-
+  has_many :tags
 end
