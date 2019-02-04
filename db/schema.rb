@@ -59,6 +59,12 @@ ActiveRecord::Schema.define(version: 2019_02_03_142634) do
     t.index ["user_id"], name: "index_interests_on_user_id"
   end
 
+  create_table "jwt_blacklist", force: :cascade do |t|
+    t.string "jti", null: false
+    t.datetime "exp", null: false
+    t.index ["jti"], name: "index_jwt_blacklist_on_jti"
+  end
+
   create_table "questions", force: :cascade do |t|
     t.string "title"
     t.text "body"

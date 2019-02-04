@@ -1,12 +1,12 @@
 # == Schema Information
 #
-# Table name: sessions
+# Table name: teaching_sessions
 #
 #  id         :bigint(8)        not null, primary key
 #  start_time :time
+#  tutor_id   :bigint(8)
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  tutor_id   :bigint(8)
 #
 
 class TeachingSession < ApplicationRecord

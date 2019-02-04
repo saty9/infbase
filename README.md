@@ -1,8 +1,9 @@
 # README
 * Set up
-	-- Download the repo
-	-- Install dependencies with > bundle
-	-- Start the server with > foreman start
+  * Download the repo
+  * Install dependencies with > bundle
+  * Set environment variables `DEVISE_JWT_SECRET_KEY` and `DATABASE_PASSWORD`
+  * Start the server with > foreman start
 
 * Ruby version
 

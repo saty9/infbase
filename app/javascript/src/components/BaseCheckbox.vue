@@ -42,12 +42,10 @@ export default {
   computed: {
     model: {
       get() {
-        return this.checked;
+        return this.touched;
       },
       set(check) {
-        if (!this.touched) {
-          this.touched = true;
-        }
+        this.touched = check;
         this.$emit("input", check);
       }
     },
