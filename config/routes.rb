@@ -1,13 +1,16 @@
 Rails.application.routes.draw do
+  post 'refresh', controller: :refresh, action: :create
+  post 'signin', controller: :signin, action: :create
+  post 'signup', controller: :signup, action: :create
+  delete 'signin', controller: :signin, action: :destroy
+  get 'me', controller: :users, action: :me
+
   resources :answers
   resources :questions
   resources :teaching_sessions
   resources :course_members
   resources :courses
-  devise_for :users, controllers:{
-      sessions: 'users/sessions',
-      registrations: 'users/registrations'
-  }
+
   scope '/users/:id' do
     get '/courses', action: :courses, controller: 'users/related'
   end

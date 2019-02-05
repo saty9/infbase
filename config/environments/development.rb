@@ -1,6 +1,4 @@
 Rails.application.configure do
-  # Verifies that versions and hashed value of the package contents in the project's package.json
-  config.webpacker.check_yarn_integrity = true
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded on
@@ -60,12 +58,4 @@ Rails.application.configure do
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
-
-  # Make javascript_pack_tag load assets from webpack-dev-server.
-  config.x.webpacker[:dev_server_host] = 'http://localhost:8080'
-
-  # "Your Yarn packages are out of date!" fix
-  config.webpacker.check_yarn_integrity = false
-
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 end
