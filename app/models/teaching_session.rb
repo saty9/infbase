@@ -14,4 +14,5 @@ class TeachingSession < ApplicationRecord
 
   has_many :questions
   has_many :interests
+  has_one :report
 end
