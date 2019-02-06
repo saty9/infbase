@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: course_members
@@ -13,5 +15,5 @@
 class CourseMember < ApplicationRecord
   belongs_to :user
   belongs_to :course
-  enum role: [:student, :tutor]
+  enum role: %i[student tutor]
 end

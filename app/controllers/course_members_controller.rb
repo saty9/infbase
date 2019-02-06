@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class CourseMembersController < ApplicationController
-  before_action :set_course_member, only: [:show, :update, :destroy]
+  before_action :set_course_member, only: %i[show update destroy]
 
   # GET /course_members
   # GET /course_members.json
@@ -9,8 +11,7 @@ class CourseMembersController < ApplicationController
 
   # GET /course_members/1
   # GET /course_members/1.json
-  def show
-  end
+  def show; end
 
   # POST /course_members
   # POST /course_members.json
@@ -41,13 +42,14 @@ class CourseMembersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_course_member
-      @course_member = CourseMember.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def course_member_params
-      params.require(:course_member).permit(:role, :user_id, :course_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_course_member
+    @course_member = CourseMember.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def course_member_params
+    params.require(:course_member).permit(:role, :user_id, :course_id)
+  end
 end

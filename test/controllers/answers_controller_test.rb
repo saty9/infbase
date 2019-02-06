@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 class AnswersControllerTest < ActionDispatch::IntegrationTest
@@ -5,12 +7,12 @@ class AnswersControllerTest < ActionDispatch::IntegrationTest
     @answer = answers(:one)
   end
 
-  test "should get index" do
+  test 'should get index' do
     get answers_url, as: :json
     assert_response :success
   end
 
-  test "should create answer" do
+  test 'should create answer' do
     assert_difference('Answer.count') do
       post answers_url, params: { answer: { body: @answer.body, posted: @answer.posted, user_id: @answer.user_id } }, as: :json
     end
@@ -18,17 +20,17 @@ class AnswersControllerTest < ActionDispatch::IntegrationTest
     assert_response 201
   end
 
-  test "should show answer" do
+  test 'should show answer' do
     get answer_url(@answer), as: :json
     assert_response :success
   end
 
-  test "should update answer" do
+  test 'should update answer' do
     patch answer_url(@answer), params: { answer: { body: @answer.body, posted: @answer.posted, user_id: @answer.user_id } }, as: :json
     assert_response 200
   end
 
-  test "should destroy answer" do
+  test 'should destroy answer' do
     assert_difference('Answer.count', -1) do
       delete answer_url(@answer), as: :json
     end
