@@ -12,7 +12,7 @@
 #
 
 class TeachingSession < ApplicationRecord
-  belongs_to :tutor, class_name: :user
+  belongs_to :tutor, class_name: "User"
 
   has_many :questions
   has_many :interests
