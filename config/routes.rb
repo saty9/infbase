@@ -16,8 +16,9 @@ Rails.application.routes.draw do
                    registration: 'signup'
                },
                controllers: {
-                   sessions: 'users/sessions',
-                   registrations: 'users/registrations'
+                 sessions: 'users/sessions',
+                 registrations: 'users/registrations',
+                 passwords: 'users/passwords'
                }
 
     scope '/users/:id' do

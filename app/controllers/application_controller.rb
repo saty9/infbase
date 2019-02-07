@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::API
+  include Response
   before_action :authenticate_user!
+  respond_to :json
 
   def render_resource(resource)
     if resource.errors.empty?
