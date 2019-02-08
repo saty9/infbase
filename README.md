@@ -1,4 +1,10 @@
 # README
+* docker deployment
+ * download repo
+ * cd into repo directory
+ * Set environment variables `DEVISE_JWT_SECRET_KEY` and `DATABASE_PASSWORD`
+ * run docker-compose up
+ 
 * Set up
   * Download the repo
   * Install dependencies with > bundle
