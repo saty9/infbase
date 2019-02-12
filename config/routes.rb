@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     resources :questions
     resources :teaching_sessions, only: [:index, :show]
     resources :course_members
-    resources :courses
+    resources :courses, only: [:index, :show]
     resources :hours, only: [:index]
 
     devise_for :users,
@@ -30,6 +30,8 @@ Rails.application.routes.draw do
       resources :users, only: [:index, :update]
       resources :hours, only: [:index, :create, :update, :destroy]
       resources :teaching_sessions, only: [:create, :update, :destroy]
+      resources :expertise, only: [:index, :create, :destroy]
+      resources :courses, only: [:create, :update, :destroy]
     end
   end
 end
