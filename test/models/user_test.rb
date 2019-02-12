@@ -12,7 +12,7 @@
 #  remember_created_at    :datetime
 #  first_name             :string
 #  last_name              :string
-#  role                   :integer          default("user"), not null
+#  role                   :integer          default("student"), not null
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #

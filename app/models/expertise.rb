@@ -13,9 +13,9 @@
 
 class Expertise < ApplicationRecord
   belongs_to :course
-  belongs_to :user, class_name: "User", foreign_key: "tutor_id"
+  belongs_to :user, class_name: 'User', foreign_key: 'tutor_id'
 
   def to_json
-    {id: id, tutor_id: tutor_id, course_id: course_id, name: course.name}
+    { id: id, tutor_id: tutor_id, course_id: course_id, name: course.name }
   end
 end

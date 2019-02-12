@@ -9,7 +9,7 @@ class Admin::ExpertiseController < ApplicationController
 
   def create
     @expertise = Expertise.new(expertise_params)
-    
+
     if @expertise.save
       render json: @expertise.to_json, status: :ok
     else

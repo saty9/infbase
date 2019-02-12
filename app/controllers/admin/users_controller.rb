@@ -12,13 +12,13 @@ class Admin::UsersController < ApplicationController
   end
 
   def update
-  	@user = User.find(params[:id])
-  	p params[:user]
+    @user = User.find(params[:id])
+    p params[:user]
 
-		if params[:user][:password].blank?
-		  params[:user].delete(:password)
-		  params[:user].delete(:password_confirmation)
-		end
+    if params[:user][:password].blank?
+      params[:user].delete(:password)
+      params[:user].delete(:password_confirmation)
+    end
 
     if @user.update(update_params)
       render json: @user, status: :ok
@@ -27,7 +27,7 @@ class Admin::UsersController < ApplicationController
     end
   end
 
-private
+  private
 
   def update_params
     params.require(:user).permit(:first_name, :last_name, :role)

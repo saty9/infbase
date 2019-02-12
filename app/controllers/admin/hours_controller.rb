@@ -23,7 +23,7 @@ class Admin::HoursController < ApplicationController
   end
 
   def update
-    if @hour.update(hour_params) 
+    if @hour.update(hour_params)
       render json: (formatted_hour @hour.as_json)
     else
       render json: @hour.errors, status: :unprocessable_entity

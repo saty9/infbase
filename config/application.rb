@@ -23,6 +23,6 @@ module Infbase
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
-    config.middleware.use ProxyToUi if ["development", "test"].include? Rails.env
+    config.middleware.use ProxyToUi if %w[development test].include? Rails.env
   end
 end
