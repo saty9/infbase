@@ -23,7 +23,7 @@ class User < ApplicationRecord
          :jwt_authenticatable,
          jwt_revocation_strategy: JWTBlacklist
 
-  enum role: %i[user tutor admin].freeze
+  enum role: %i[student tutor admin].freeze
 
   has_many :questions
   has_many :answers
@@ -34,6 +34,6 @@ class User < ApplicationRecord
   has_many :reports
 
   def attributes
-    { id: id, email: email, role: role }
+    { id: id, email: email, role: role, first_name: first_name, last_name: last_name }
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_03_142634) do
+ActiveRecord::Schema.define(version: 2019_02_11_105149) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,13 @@ ActiveRecord::Schema.define(version: 2019_02_03_142634) do
     t.datetime "updated_at", null: false
     t.index ["course_id"], name: "index_expertises_on_course_id"
     t.index ["tutor_id"], name: "index_expertises_on_tutor_id"
+  end
+
+  create_table "hours", force: :cascade do |t|
+    t.time "start"
+    t.time "end"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "interests", force: :cascade do |t|
@@ -102,10 +109,12 @@ ActiveRecord::Schema.define(version: 2019_02_03_142634) do
   end
 
   create_table "teaching_sessions", force: :cascade do |t|
-    t.time "start_time"
     t.bigint "tutor_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "hour_id"
+    t.date "start_date"
+    t.index ["hour_id"], name: "index_teaching_sessions_on_hour_id"
     t.index ["tutor_id"], name: "index_teaching_sessions_on_tutor_id"
   end
 
@@ -148,6 +157,7 @@ ActiveRecord::Schema.define(version: 2019_02_03_142634) do
   add_foreign_key "tags", "questions"
   add_foreign_key "tags", "reports"
   add_foreign_key "tags", "topics"
+  add_foreign_key "teaching_sessions", "hours"
   add_foreign_key "teaching_sessions", "users", column: "tutor_id"
   add_foreign_key "topics", "courses"
 end

@@ -7,6 +7,8 @@ class CoursesController < ApplicationController
   # GET /courses.json
   def index
     @courses = Course.all
+
+    render json: @courses
   end
 
   # GET /courses/1
@@ -29,7 +31,7 @@ class CoursesController < ApplicationController
   # PATCH/PUT /courses/1.json
   def update
     if @course.update(course_params)
-      render :show, status: :ok, location: @course
+      render json: @course, status: :ok
     else
       render json: @course.errors, status: :unprocessable_entity
     end

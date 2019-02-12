@@ -13,8 +13,17 @@
 
 class TeachingSession < ApplicationRecord
   belongs_to :tutor, class_name: "User"
+  belongs_to :hour
 
   has_many :questions
   has_many :interests
   has_one :report
+
+  scope :in_range, -> start, finish {
+    where(["start_date >= ? and start_date < ?", start.to_date, finish.to_date])
+  }
+
+  def start_time
+    self.hour.start
+  end
 end
