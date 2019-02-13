@@ -19,8 +19,14 @@ class Report < ApplicationRecord
 
   has_many :tags
 
+  scope :of_tutor, lambda { |tutor_id|
+    where(tutor_id: tutor_id)
+  }
+
   def self.default_scope
-    Report.all.joins(:teaching_session).where('teaching_sessions.start_date <= ?', Time.now)
+    joins(:teaching_session)
+    .where('teaching_sessions.start_date <= ?', Time.now)
+    .order('teaching_sessions.start_date DESC')
   end
 
   def merge_date
