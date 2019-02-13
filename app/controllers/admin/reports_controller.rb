@@ -4,7 +4,11 @@ class Admin::ReportsController < ApplicationController
   before_action :set_report, only: %i[show update]
 
   def index
-    render json: Report.all.of_tutor(current_user).map(&:merge_date)
+    if current_user.admin?
+      render json: Report.all.map(&:merge_date)
+    else
+      render json: Report.all.of_tutor(current_user).map(&:merge_date)
+    end
   end
 
   def show
