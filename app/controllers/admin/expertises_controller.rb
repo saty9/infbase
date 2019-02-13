@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Admin::ExpertiseController < ApplicationController
+class Admin::ExpertisesController < ApplicationController
   respond_to :json
 
   def index

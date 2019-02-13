@@ -17,8 +17,8 @@ class TeachingSession < ApplicationRecord
   belongs_to :hour
 
   has_many :questions
-  has_many :interests
-  has_one :report
+  has_many :interests, dependent: :delete_all
+  has_one :report, dependent: :destroy
 
   scope :in_range, lambda { |start, finish|
     where(['start_date >= ? and start_date < ?', start.to_date, finish.to_date])

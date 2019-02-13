@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  scope '/api' do
+  scope '/api', defaults: { format: 'json' } do
     resources :answers
     resources :questions
     resources :teaching_sessions, only: %i[index show]
@@ -30,8 +30,9 @@ Rails.application.routes.draw do
       resources :users, only: %i[index update]
       resources :hours, only: %i[index create update destroy]
       resources :teaching_sessions, only: %i[create update destroy]
-      resources :expertise, only: %i[index create destroy]
+      resources :expertises, only: %i[index create destroy]
       resources :courses, only: %i[create update destroy]
+      resources :reports, only: %i[index show update]
     end
   end
 end

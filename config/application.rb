@@ -24,5 +24,6 @@ module Infbase
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
     config.middleware.use ProxyToUi if %w[development test].include? Rails.env
+    config.active_job.queue_adapter = :sucker_punch
   end
 end

@@ -90,6 +90,7 @@ ActiveRecord::Schema.define(version: 20_190_211_105_149) do
   create_table 'reports', force: :cascade do |t|
     t.integer 'students'
     t.text 'comment'
+    t.boolean 'completed'
     t.bigint 'tutor_id'
     t.bigint 'teaching_session_id'
     t.datetime 'created_at', null: false

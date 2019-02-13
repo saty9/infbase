@@ -21,6 +21,9 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'rack-cors'
 gem 'rack-proxy', '~> 0.6.4'
 
+# background jobs
+gem 'sucker_punch'
+
 group :development, :test do
   gem 'rb-readline'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

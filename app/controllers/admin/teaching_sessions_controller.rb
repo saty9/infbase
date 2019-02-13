@@ -7,7 +7,8 @@ class Admin::TeachingSessionsController < ApplicationController
     @session = TeachingSession.new(session_params)
 
     if @session.save
-      render :show, status: :created, location: @session
+      render json: @session.to_json
+      CreateReportJob.perform_async(@session)
     else
       render json: @session.errors, status: :unprocessable_entity
     end
