@@ -5,9 +5,9 @@ class Admin::ReportsController < ApplicationController
 
   def index
     if current_user.admin?
-      render json: Report.all.map(&:merge_date)
+      render json: Report.past_reports.map(&:merge_date)
     else
-      render json: Report.all.of_tutor(current_user).map(&:merge_date)
+      render json: Report.past_reports.of_tutor(current_user).map(&:merge_date)
     end
   end
 
