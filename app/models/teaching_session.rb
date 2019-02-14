@@ -24,6 +24,22 @@ class TeachingSession < ApplicationRecord
     where(['start_date >= ? and start_date < ?', start.to_date, finish.to_date])
   }
 
+  def self.create_weekly(params:, until_date:)
+    period_start = (Date.parse(params[:start_date]) + 7.day).to_datetime
+    period_end   = Date.parse(until_date).to_datetime
+
+    tutor_id = params[:tutor_id]
+    hour_id = params[:hour_id]
+
+    teaching_sessions = []
+
+    (period_start.to_i..period_end.to_i).step(7.day) do |day|
+      day = Time.zone.at(day).to_date
+      teaching_sessions << { tutor_id: tutor_id, hour_id: hour_id, start_date: day }
+    end
+    TeachingSession.create(teaching_sessions)
+  end
+
   def to_json
     { id: id, hour_id: hour.id, start_date: start_date.strftime('%Y.%-m.%e'),
       tutor_f_name: tutor.first_name, tutor_id: tutor_id }

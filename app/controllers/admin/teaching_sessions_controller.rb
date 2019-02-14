@@ -8,6 +8,10 @@ class Admin::TeachingSessionsController < ApplicationController
 
     if @session.save
       render json: @session.to_json
+      if params[:occurrence] == 'weekly'
+        p '==========================='
+        TeachingSession.create_weekly(params: session_params, until_date: params[:until])
+      end
       CreateReportJob.perform_async(@session)
     else
       render json: @session.errors, status: :unprocessable_entity
