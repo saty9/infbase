@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     resources :course_members
     resources :courses
     resources :hours, only: [:index]
+    resources :topics
 
     devise_for :users,
                path: '',
@@ -17,9 +18,9 @@ Rails.application.routes.draw do
                    registration: 'signup'
                },
                controllers: {
-                 sessions: 'users/sessions',
-                 registrations: 'users/registrations',
-                 passwords: 'users/passwords'
+                   sessions: 'users/sessions',
+                   registrations: 'users/registrations',
+                   passwords: 'users/passwords'
                }
 
     namespace 'users' do

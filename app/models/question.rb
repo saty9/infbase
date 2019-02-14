@@ -21,5 +21,12 @@ class Question < ApplicationRecord
   belongs_to :teaching_session
 
   has_many :answers
-  has_many :tags
+  has_many :question_tags
+  has_many :topics, through: :question_tags
+  has_many :question_votes
+
+  def vote_count
+    QuestionVote.where(question: self).sum(:value)
+  end
+
 end

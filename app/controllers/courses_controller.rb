@@ -7,8 +7,7 @@ class CoursesController < ApplicationController
   # GET /courses.json
   def index
     @courses = Course.all
-
-    render json: @courses
+    render json: @courses.as_json( only: [:id,:name])
   end
 
   # GET /courses/1
