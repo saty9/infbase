@@ -37,11 +37,14 @@ class QuestionsController < ApplicationController
 
     if @question.save
       params[:tags].each do |tag|
-        if not tag[:id]
-          topic = Topic.create(name:tag[:name])
-          tag[:id] = topic.id
+        print(tag)
+        if tag.is_a? String
+          topic = Topic.find_or_create(name:tag.titleize)
+          tag_id = topic.id
+        else
+          tag_id = tag[:id]
         end
-        QuestionTag.create(question: @question, topic_id:tag[:id])
+        QuestionTag.create(question: @question, topic_id:tag_id)
       end
       if current_user.role != :student
         @question.answers.create(user: current_user, body: params[:answer])
