@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: topics
@@ -10,6 +11,5 @@
 #
 
 class Topic < ApplicationRecord
-
   has_many :tags
 end

@@ -6,27 +6,26 @@ class QuestionsController < ApplicationController
   # GET /questions
   # GET /questions.json
   def index
-    @questions = Question.joins(:question_votes).group("questions.id").order("sum(question_votes.value) desc")
-    if current_user
-      @questions = @questions.where(course: current_user.courses)
-    else
-      @questions = @questions.all
-    end
+    @questions = Question.joins(:question_votes).group('questions.id').order('sum(question_votes.value) desc')
+    @questions = if current_user
+                   @questions.where(course: current_user.courses)
+                 else
+                   @questions.all
+                 end
 
     render json: @questions.as_json(include: {
-        topics: {only: [:id, :name]}
-    }, methods: :vote_count)
+                                      topics: { only: %i[id name] }
+                                    }, methods: :vote_count)
   end
 
   # GET /questions/1
   # GET /questions/1.json
-  def show;
+  def show
     render json: @question.as_json(include: {
-        topics: {only: [:id, :name]},
-        answers: {only: [:body, :created_at],
-                  include: :user
-                 }
-    }, methods: :vote_count)
+                                     topics: { only: %i[id name] },
+                                     answers: { only: %i[body created_at],
+                                                include: :user }
+                                   }, methods: :vote_count)
   end
 
   # POST /questions
@@ -39,12 +38,12 @@ class QuestionsController < ApplicationController
       params[:tags].each do |tag|
         print(tag)
         if tag.is_a? String
-          topic = Topic.find_or_create(name:tag.titleize)
+          topic = Topic.find_or_create(name: tag.titleize)
           tag_id = topic.id
         else
           tag_id = tag[:id]
         end
-        QuestionTag.create(question: @question, topic_id:tag_id)
+        QuestionTag.create(question: @question, topic_id: tag_id)
       end
       if current_user.role != :student
         @question.answers.create(user: current_user, body: params[:answer])

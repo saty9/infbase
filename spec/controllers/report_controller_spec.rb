@@ -2,5 +2,5 @@
 
 require 'rails_helper'
 
-RSpec.describe HoursController, type: :controller do
+RSpec.describe ReportController, type: :controller do
 end

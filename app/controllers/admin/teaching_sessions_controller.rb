@@ -4,25 +4,27 @@ class Admin::TeachingSessionsController < ApplicationController
   before_action :set_session, only: %i[update destroy]
 
   def create
-    @session = TeachingSession.new(session_params)
+    @sessions = TeachingSession.create_with_type(params: session_params,
+                                                 type: params[:occurrence],
+                                                 until_date: params[:until])
 
-    if @session.save
-      render :show, status: :created, location: @session
-    else
-      render json: @session.errors, status: :unprocessable_entity
-    end
+    @session = @sessions.try(:first) || @sessions
+    render json: @session.to_json
   end
 
   def update
-    if @session.update(session_params)
-      render :show, status: :ok, location: @session
-    else
-      render json: @session.errors, status: :unprocessable_entity
-    end
+    TeachingSession.update_with_type(session: @session,
+                                     type: params[:occurrence],
+                                     params: session_params,
+                                     until_date: params[:until])
+
+    render json: set_session.to_json
   end
 
   def destroy
-    @session.destroy
+    TeachingSession.destroy_with_type(session: @session,
+                                      type: params[:occurrence],
+                                      until_date: params[:until])
   end
 
   private

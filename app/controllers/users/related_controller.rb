@@ -7,11 +7,12 @@ class Users::RelatedController < ApplicationController
   def courses
     @course_memberships = @user.course_members
     render json: @course_memberships.as_json(include: {
-        course: {only: [:name]}
-    })
+                                               course: { only: [:name] }
+                                             })
   end
 
   private
+
   def set_user
     @user = User.find(params[:id])
   end

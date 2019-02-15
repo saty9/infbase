@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 users = [
   { first_name: 'Ivan1', last_name: 'Petar1', role: 'student', email: 'john1@gmail.com' },
   { first_name: 'Ivan2', last_name: 'Petar2', role: 'student', email: 'john2@gmail.com' },
@@ -15,14 +17,14 @@ users = [
   { first_name: 'Ivan14', last_name: 'Petar14', role: 'admin', email: 'john14@gmail.com' }
 ]
 
-password_params = { password: 'password', password_confirmation: 'password'}
+password_params = { password: 'password', password_confirmation: 'password' }
 
 courses = [
-  { name: "CogSci" },
-  { name: "Inf2B" },
-  { name: "Inf2D" },
-  { name: "DA" },
-  { name: "OP" }
+  { name: 'CogSci' },
+  { name: 'Inf2B' },
+  { name: 'Inf2D' },
+  { name: 'DA' },
+  { name: 'OP' }
 ]
 
 hours = [
@@ -40,16 +42,16 @@ users.each do |user_params|
   User.create_with(password_params).find_or_create_by(user_params)
 end
 
-p "Seeded users"
+p 'Seeded users'
 
 courses.each do |course_params|
   Course.find_or_create_by(course_params)
 end
 
-p "Seeded courses."
+p 'Seeded courses.'
 
 hours.each do |hour_params|
   Hour.find_or_create_by(hour_params)
 end
 
-p "Seeded hours"
+p 'Seeded hours'

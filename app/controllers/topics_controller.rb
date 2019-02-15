@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TopicsController < ApplicationController
   before_action :set_topic, only: %i[show update destroy]
 
@@ -5,7 +7,7 @@ class TopicsController < ApplicationController
   # GET /topics.json
   def index
     @topics = Topic.all
-    render json: @topics.as_json(only:[:id,:name])
+    render json: @topics.as_json(only: %i[id name])
   end
 
   # GET /topics/1

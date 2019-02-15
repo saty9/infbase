@@ -28,5 +28,4 @@ class Question < ApplicationRecord
   def vote_count
     QuestionVote.where(question: self).sum(:value)
   end
-
 end
