@@ -5,20 +5,20 @@ class Admin::ReportsController < ApplicationController
 
   def index
     if current_user.admin?
-      render json: Report.past_reports.map(&:merge_date)
+      render json: Report.past_reports.map(&:merge_data)
     else
-      render json: Report.past_reports.of_tutor(current_user).map(&:merge_date)
+      render json: Report.past_reports.of_tutor(current_user).map(&:merge_data)
     end
   end
 
   def show
-    render json: @report.merge_date
+    render json: @report.merge_data
   end
 
   def update
     if @report.update(report_params)
       @report.update(completed: true)
-      render json: @report.merge_date, status: :ok
+      render json: @report.merge_data, status: :ok
     else
       render json: @report.errors, status: :unprocessable_entity
     end
