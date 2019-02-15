@@ -3,9 +3,9 @@
 class TeachingSessionsController < ApplicationController
   def index
     if params[:range]
-      range = params[:range].map { |date| JSON.parse(date) }
-      start = Date.new(*range.first)
-      finish = Date.new(*range.last) + 1.day
+      range = params[:range]
+      start = range.first.to_date
+      finish = range.last.to_date + 1.day
       render json: TeachingSession.in_range(start, finish).map(&:to_json)
     else
       render json: TeachingSession.all.map(&:to_json)
