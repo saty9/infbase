@@ -10,7 +10,6 @@ class Admin::TeachingSessionsController < ApplicationController
     
     @session = @sessions.try(:first) || @sessions
     render json: @session.to_json
-    # CreateReportJob.perform_async(@sessions)
   end
 
   def update

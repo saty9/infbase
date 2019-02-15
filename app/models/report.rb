@@ -14,7 +14,6 @@
 #
 
 class Report < ApplicationRecord
-  belongs_to :tutor, class_name: 'User'
   belongs_to :teaching_session
 
   has_many :tags

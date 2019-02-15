@@ -90,12 +90,10 @@ ActiveRecord::Schema.define(version: 2019_02_11_105149) do
     t.integer "students"
     t.text "comment"
     t.boolean "completed"
-    t.bigint "tutor_id"
     t.bigint "teaching_session_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["teaching_session_id"], name: "index_reports_on_teaching_session_id"
-    t.index ["tutor_id"], name: "index_reports_on_tutor_id"
   end
 
   create_table "tags", force: :cascade do |t|
@@ -154,7 +152,6 @@ ActiveRecord::Schema.define(version: 2019_02_11_105149) do
   add_foreign_key "questions", "teaching_sessions"
   add_foreign_key "questions", "users"
   add_foreign_key "reports", "teaching_sessions"
-  add_foreign_key "reports", "users", column: "tutor_id"
   add_foreign_key "tags", "questions"
   add_foreign_key "tags", "reports"
   add_foreign_key "tags", "topics"

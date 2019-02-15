@@ -13,6 +13,8 @@
 #
 
 class TeachingSession < ApplicationRecord
+  after_create :create_report
+
   belongs_to :tutor, class_name: 'User'
   belongs_to :hour
 
@@ -38,8 +40,13 @@ class TeachingSession < ApplicationRecord
       period_start.step(period_end, 7) do |day|
         teaching_sessions << { tutor_id: tutor_id, hour_id: hour_id, start_date: day }
       end
+
       TeachingSession.create(teaching_sessions)
     end
+  end
+
+  def create_report
+    Report.create(teaching_session_id: self.id, completed: false)
   end
 
   def self.update_with_type(session:, type:, params:, until_date:)
