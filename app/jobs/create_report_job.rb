@@ -3,9 +3,11 @@
 class CreateReportJob
   include SuckerPunch::Job
 
-  def perform(session)
-    Report.create(teaching_session_id: session.id,
-                  tutor_id: session.tutor_id,
-                  completed: false)
+  def perform(sessions)
+    sessions = [sessions]
+    sessions.map{ |ses| Report.create(teaching_session_id: ses.id,
+                                      tutor_id: ses.tutor_id,
+                                      completed: false)}
+
   end
 end

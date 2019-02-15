@@ -4,30 +4,28 @@ class Admin::TeachingSessionsController < ApplicationController
   before_action :set_session, only: %i[update destroy]
 
   def create
-    @session = TeachingSession.new(session_params)
-
-    if @session.save
-      render json: @session.to_json
-      if params[:occurrence] == 'weekly'
-        p '==========================='
-        TeachingSession.create_weekly(params: session_params, until_date: params[:until])
-      end
-      CreateReportJob.perform_async(@session)
-    else
-      render json: @session.errors, status: :unprocessable_entity
-    end
+    @sessions = TeachingSession.create_with_type(params: session_params, 
+                                                 type: params[:occurrence], 
+                                                 until_date: params[:until])
+    
+    @session = @sessions.try(:first) || @sessions
+    render json: @session.to_json
+    # CreateReportJob.perform_async(@sessions)
   end
 
   def update
-    if @session.update(session_params)
-      render json: @session.to_json, status: :ok
-    else
-      render json: @session.errors, status: :unprocessable_entity
-    end
+    TeachingSession.update_with_type(session: @session, 
+                                     type: params[:occurrence],
+                                     params: session_params,
+                                     until_date: params[:until])
+    
+    render json: set_session.to_json
   end
 
   def destroy
-    @session.destroy
+    TeachingSession.destroy_with_type(session: @session,
+                                      type: params[:occurrence],
+                                      until_date: params[:until])
   end
 
   private
