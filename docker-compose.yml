@@ -4,7 +4,10 @@ services:
     build:
       context: .
       dockerfile:  ./Dockerfile
-    command: bash -c "bundle exec rake db:migrate && foreman start"
+    command: >
+      bash -c "bundle exec rake db:migrate &&
+               bundle exec rake environment elasticsearch:import:model CLASS='Question' FORCE=true &&
+               foreman start"
     links:
       - database:database
     environment:
@@ -14,6 +17,7 @@ services:
       - DEVISE_JWT_SECRET_KEY
     depends_on:
       - database
+      - elasticsearch
     restart: always
   ui:
     build: https://github.com/Kristiyan96/infbase-frontend.git
@@ -30,3 +34,10 @@ services:
       POSTGRES_DB: "inf_base_development"
       POSTGRES_USER: "infbase"
     restart: always
+  elasticsearch:
+    image: 'elasticsearch:6.6.0'
+    expose:
+      - '9200'
+      - '9300'
+    environment:
+      - "discovery.type=single-node"

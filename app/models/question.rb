@@ -14,8 +14,11 @@
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #
+require 'elasticsearch/model'
 
 class Question < ApplicationRecord
+  include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
   belongs_to :user
   belongs_to :course
   belongs_to :teaching_session

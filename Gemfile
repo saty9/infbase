@@ -24,6 +24,10 @@ gem 'rack-proxy', '~> 0.6.4'
 # background jobs
 gem 'sucker_punch'
 
+#elastic search
+gem 'elasticsearch-model', github: 'elastic/elasticsearch-rails', branch: '6.x'
+gem 'elasticsearch-rails', github: 'elastic/elasticsearch-rails', branch: '6.x'
+
 group :development, :test do
   gem 'rb-readline'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
