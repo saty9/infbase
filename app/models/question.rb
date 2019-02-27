@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: questions
@@ -13,7 +12,9 @@
 #  teaching_session_id :bigint(8)
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
+#  views               :integer          default(0)
 #
+
 require 'elasticsearch/model'
 
 class Question < ApplicationRecord
@@ -27,6 +28,9 @@ class Question < ApplicationRecord
   has_many :question_tags
   has_many :topics, through: :question_tags
   has_many :question_votes
+  scope :user, -> (user_id) { where user_id: user_id }
+  scope :course, -> (course_id) { where course_id: course_id}
+  scope :tagged_with, -> (tag_ids) { joins(:question_tags).where( 'question_tags.topic_id': tag_ids ) }
 
   def vote_count
     QuestionVote.where(question: self).sum(:value)

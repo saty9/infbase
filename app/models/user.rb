@@ -30,7 +30,7 @@ class User < ApplicationRecord
   has_many :questions
   has_many :expertises
   has_many :course_members
-  has_many :teaching_sessions
+  has_many :teaching_sessions, foreign_key: :tutor_id
   has_many :courses, through: :course_members
   has_many :reports, through: :teaching_sessions
 
