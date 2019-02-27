@@ -18,7 +18,8 @@ class Report < ApplicationRecord
   has_many :tags
 
   scope :of_tutor, lambda { |tutor_id|
-    where(tutor_id: tutor_id)
+    joins(:teaching_session)
+      .where('teaching_sessions.tutor_id = ?', tutor_id)
   }
 
   def self.past_reports
