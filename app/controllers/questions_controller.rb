@@ -14,7 +14,7 @@ class QuestionsController < ApplicationController
     @questions = @questions.where(teaching_session: current_user.teaching_sessions.where('start_date >= ?', Date.today)) if params[:upcoming_session]
     @questions = @questions.course(params[:course]) if params[:course].present?
     @questions = @questions.tagged_with(params[:tag]) if params[:tag].present?
-    @questions = @questions.joins(:question_votes).group('questions.id').select('SUM(question_votes.value) AS vote_count', :title, :id, :views)
+    @questions = @questions.joins(:question_votes).group('questions.id').select('SUM(question_votes.value) AS vote_count', :title, :id, :views, :created_at)
     case params[:order_by]
     when "vote_count"
       @questions = @questions.order('vote_count desc')
