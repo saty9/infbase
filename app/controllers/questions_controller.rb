@@ -7,6 +7,7 @@ class QuestionsController < ApplicationController
   # GET /questions.json
   def index
     @questions = Question.where(nil)
+    @questions = @questions.search(params[:search_string]).records if params[:search_string]
     @questions = @questions.left_joins(:answers).where(answers: {question_id: nil}) if params[:unanswered]
     @questions = @questions.joins(:answers) if params[:answered]
     @questions = @questions.user(current_user.id) if params[:asked_by_me]
@@ -30,6 +31,12 @@ class QuestionsController < ApplicationController
     render json: @questions.as_json(include: {
                                       topics: { only: %i[id name] }
                                     })
+  end
+
+  def search
+    @questions = Question.joins(:answers)
+    @questions = @questions.search(params[:search_string], size: 4).records
+    render json: @questions.as_json(only: [:id, :title])
   end
 
   # GET /questions/1

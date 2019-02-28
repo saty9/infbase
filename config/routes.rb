@@ -3,7 +3,9 @@
 Rails.application.routes.draw do
   scope '/api', defaults: { format: 'json' } do
     resources :answers
-    resources :questions
+    resources :questions do
+      get 'search', on: :collection
+    end
     resources :teaching_sessions, only: %i[index show]
     resources :course_members
     resources :courses, only: %i[index show]
