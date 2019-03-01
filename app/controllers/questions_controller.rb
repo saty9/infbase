@@ -42,13 +42,13 @@ class QuestionsController < ApplicationController
   # GET /questions/1.json
   def show
     Question.increment_counter(:views, @question.id)
-    exposed_attributes = [:title, :body, :created_at, :course_id]
+    exposed_attributes = [:title, :body, :created_at, :course_id, 'votes AS vote_count']
     render json: @question.as_json(only:exposed_attributes,
                                    include: {
                                      topics: { only: %i[id name] },
                                      answers: { only: %i[body created_at],
                                                 include: :user }
-                                   }, methods: :vote_count)
+                                   })
   end
 
   # POST /questions
