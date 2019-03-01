@@ -15,7 +15,7 @@ class QuestionsController < ApplicationController
     @questions = @questions.where(teaching_session: current_user.teaching_sessions.where('start_date >= ?', Date.today)) if params[:upcoming_session]
     @questions = @questions.course(params[:course]) if params[:course].present?
     @questions = @questions.tagged_with(params[:tag]) if params[:tag].present?
-    @questions = @questions.joins(:question_votes).group('questions.id').select('SUM(question_votes.value) AS vote_count', :title, :id, :views, :created_at)
+    @questions = @questions.joins(:question_votes).group('questions.id').select('votes AS vote_count', :title, :id, :views, :created_at)
     case params[:order_by]
     when "vote_count"
       @questions = @questions.order('vote_count desc')
@@ -27,7 +27,6 @@ class QuestionsController < ApplicationController
       @questions = @questions.order('vote_count desc')
     end
 
-    #render json: @questions.as_json
     render json: @questions.as_json(include: {
                                       topics: { only: %i[id name] }
                                     })
