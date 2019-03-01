@@ -27,6 +27,11 @@ class Admin::UsersController < ApplicationController
     end
   end
 
+  def send_email
+    @group = User.where(role: params[:recipient].downcase[0..-2])
+    UserMailer.email_group(@group, params[:title], params[:message])
+  end
+
   private
 
   def update_params

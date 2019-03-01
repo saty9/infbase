@@ -28,7 +28,11 @@ Rails.application.routes.draw do
     end
 
     namespace 'admin' do
-      resources :users, only: %i[index update]
+      resources :users, only: %i[index update] do
+        collection do
+          post 'send_email'
+        end
+      end
       resources :hours, only: %i[index create update destroy]
       resources :teaching_sessions, only: %i[create update destroy]
       resources :expertises, only: %i[index create destroy]
