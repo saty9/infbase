@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: reports
@@ -22,10 +23,35 @@ class Report < ApplicationRecord
       .where('teaching_sessions.tutor_id = ?', tutor_id)
   }
 
+  scope :in_range, lambda { |start_date, end_date|
+    where(completed: true)
+      .joins(:teaching_session)
+      .where('teaching_sessions.start_date > ? AND teaching_sessions.start_date < ?',
+             start_date, end_date)
+      .ordered_by_session_date
+  }
+
   def self.past_reports
     joins(:teaching_session)
       .where('teaching_sessions.start_date <= ?', Time.now)
       .order('teaching_sessions.start_date DESC')
+  end
+
+  def self.to_csv(start_date, end_date)
+    csv = []
+
+    Report.in_range(start_date, end_date).each do |report|
+      csv << {"date": "#{report.teaching_session.start_date} #{report.teaching_session.hour.start.strftime('%H:%M')}", 
+              "tutor": report.teaching_session.tutor.full_name, 
+              "students": report.students, 
+              "topics": 'no topics', 
+              "comments": report.comment}
+    end
+    csv
+  end
+
+  def self.ordered_by_session_date
+    includes(:teaching_session).order('teaching_sessions.start_date DESC')
   end
 
   def merge_data

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'boot'
-
+require 'csv'
 require 'rails/all'
 require_relative '../app/middlewares/proxy_to_ui'
 

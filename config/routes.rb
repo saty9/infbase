@@ -33,7 +33,11 @@ Rails.application.routes.draw do
       resources :teaching_sessions, only: %i[create update destroy]
       resources :expertises, only: %i[index create destroy]
       resources :courses, only: %i[create update destroy]
-      resources :reports, only: %i[index show update]
+      resources :reports, only: %i[index show update] do
+        collection do
+          get 'export_csv'
+        end
+      end
     end
   end
 end

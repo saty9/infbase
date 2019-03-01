@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Admin::ReportsController < ApplicationController
+  respond_to :json, :csv
   before_action :set_report, only: %i[show update]
 
   def index
@@ -22,6 +23,10 @@ class Admin::ReportsController < ApplicationController
     else
       render json: @report.errors, status: :unprocessable_entity
     end
+  end
+
+  def export_csv
+    render json: Report.to_csv(Time.new - 20.day, Time.new)
   end
 
   private
