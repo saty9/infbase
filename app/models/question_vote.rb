@@ -13,6 +13,20 @@
 #
 
 class QuestionVote < ApplicationRecord
+  after_commit :update_question
   belongs_to :question
   belongs_to :user
+
+  def update_question
+    if @_new_record_before_last_commit
+      #creating
+      question.increment!(:votes,saved_changes[:value][1])
+    elsif @destroyed
+      #destroying
+      question.decrement!(:votes,value)
+    else
+      #updating
+      question.increment!(:votes,value - saved_changes[:value][0])
+    end
+  end
 end
