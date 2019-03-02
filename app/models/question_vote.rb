@@ -20,7 +20,7 @@ class QuestionVote < ApplicationRecord
   def update_question
     if @_new_record_before_last_commit
       #creating
-      question.increment!(:votes,saved_changes[:value][1])
+      question.increment!(:votes,value)
     elsif @destroyed
       #destroying
       question.decrement!(:votes,value)
