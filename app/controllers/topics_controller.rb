@@ -11,7 +11,7 @@ class TopicsController < ApplicationController
   end
 
   def stats
-    @topics = Topic.joins(:questions).merge(Question.asked_since(Date.today - 5.weeks))
+    @topics = Topic.joins(:questions).merge(Question.asked_since(params[:since]))
     @topics = @topics.group('topics.id').select('SUM(questions.votes) AS vote_count','name','id', 'COUNT(questions)')
     render json: @topics.as_json
   end

@@ -6,7 +6,7 @@ class CoursesController < ApplicationController
   end
 
   def stats
-    @courses = Course.joins(:questions).merge(Question.asked_since(Date.today - 5.weeks))
+    @courses = Course.joins(:questions).merge(Question.asked_since(params[:since]))
     @courses = @courses.group('courses.id').select('SUM(questions.votes) AS vote_count','name','id', 'COUNT(questions)')
     render json: @courses.as_json
   end
