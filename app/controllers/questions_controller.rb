@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class QuestionsController < ApplicationController
-  before_action :set_question, only: %i[show update destroy]
+  before_action :set_question, only: %i[show update destroy vote_for remove_vote]
 
   # GET /questions
   # GET /questions.json
@@ -38,17 +38,27 @@ class QuestionsController < ApplicationController
     render json: @questions.as_json(only: [:id, :title])
   end
 
+  def vote_for
+    QuestionVote.find_or_create_by(question: @question, user: current_user, value: 1)
+  end
+
+  def remove_vote
+    QuestionVote.where(question:@question, user_id:current_user.id).destroy_all
+  end
+
   # GET /questions/1
   # GET /questions/1.json
   def show
     Question.increment_counter(:views, @question.id)
     exposed_attributes = [:title, :body, :created_at, :course_id, :votes]
-    render json: @question.as_json(only:exposed_attributes,
-                                   include: {
-                                     topics: { only: %i[id name] },
-                                     answers: { only: %i[body created_at],
-                                                include: :user }
-                                   })
+    out = @question.as_json(only:exposed_attributes,
+                            include: {
+                                topics: { only: %i[id name] },
+                                answers: { only: %i[body created_at],
+                                           include: :user }
+                            })
+    out[:voted] = @question.question_votes.where(user:current_user).exists?
+    render json: out
   end
 
   # POST /questions

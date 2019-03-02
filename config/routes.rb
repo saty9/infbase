@@ -5,6 +5,10 @@ Rails.application.routes.draw do
     resources :answers
     resources :questions do
       get 'search', on: :collection
+      member do
+        post 'vote_for'
+        post 'remove_vote'
+      end
     end
     resources :teaching_sessions, only: %i[index show]
     resources :course_members
