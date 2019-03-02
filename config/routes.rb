@@ -23,6 +23,9 @@ Rails.application.routes.draw do
                  passwords: 'users/passwords'
                }
 
+    devise_scope :user do
+      get '/profile', controller: 'users/registrations', action: :show
+    end
     namespace 'users' do
       get ':id/courses', controller: 'related', action: :courses
     end
