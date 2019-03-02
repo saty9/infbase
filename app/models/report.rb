@@ -56,7 +56,7 @@ class Report < ApplicationRecord
 
   def merge_data
     hour = teaching_session.hour.start.strftime('%H:%M')
-    date = teaching_session.start_date.strftime('%-d %B %Y')
+    date = teaching_session.start_date.strftime('%-d %b %y')
     tutor = teaching_session.tutor
     as_json.merge(date: "#{hour} - #{date}",
                   tutor_name: "#{tutor.first_name} #{tutor.last_name}")

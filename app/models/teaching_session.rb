@@ -83,6 +83,6 @@ class TeachingSession < ApplicationRecord
 
   def to_json
     { id: id, hour_id: hour.id, start_date: start_date.strftime('%Y.%-m.%-e'),
-      tutor_f_name: tutor.first_name, tutor_id: tutor_id }
+      tutor_f_name: tutor.first_name, tutor_id: tutor_id, courses: Expertise.where(tutor_id: tutor_id).joins(:course).pluck(:name) }
   end
 end
