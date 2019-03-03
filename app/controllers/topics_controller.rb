@@ -10,6 +10,12 @@ class TopicsController < ApplicationController
     render json: @topics.as_json(only: %i[id name])
   end
 
+  def stats
+    @topics = Topic.joins(:questions).merge(Question.asked_since(params[:since]))
+    @topics = @topics.group('topics.id').select('SUM(questions.votes) AS vote_count','name','id', 'COUNT(questions)')
+    render json: @topics.as_json
+  end
+
   # GET /topics/1
   # GET /topics/1.json
   def show; end

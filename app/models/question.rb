@@ -13,6 +13,7 @@
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  views               :integer          default(0)
+#  votes               :integer          default(0)
 #
 
 require 'elasticsearch/model'
@@ -31,8 +32,5 @@ class Question < ApplicationRecord
   scope :user, -> (user_id) { where user_id: user_id }
   scope :course, -> (course_id) { where course_id: course_id}
   scope :tagged_with, -> (tag_ids) { joins(:question_tags).where( 'question_tags.topic_id': tag_ids ) }
-
-  def vote_count
-    QuestionVote.where(question: self).sum(:value)
-  end
+  scope :asked_since, -> (date) {where 'questions.created_at >= ?', date}
 end

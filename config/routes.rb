@@ -3,12 +3,22 @@
 Rails.application.routes.draw do
   scope '/api', defaults: { format: 'json' } do
     resources :answers
-    resources :questions
+    resources :questions do
+      get 'search', on: :collection
+      member do
+        post 'vote_for'
+        post 'remove_vote'
+      end
+    end
     resources :teaching_sessions, only: %i[index show]
     resources :course_members
-    resources :courses, only: %i[index show]
+    resources :courses, only: %i[index show] do
+      get 'stats', on: :collection
+    end
     resources :hours, only: [:index]
-    resources :topics
+    resources :topics do
+      get 'stats', on: :collection
+    end
 
     devise_for :users,
                path: '',
