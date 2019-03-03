@@ -20,7 +20,7 @@ class ProxyToUi < Rack::Proxy
 
   def rewrite_env(env)
     request = Rack::Request.new(env)
-    if %r{^/api/.*}.match?(request.path)
+    if %r{^/api/.*}.match?(request.path) or %r{^/rails/.*}.match?(request.path)
       # do nothing
     else
       env['HTTP_HOST'] = 'localhost:8080'
