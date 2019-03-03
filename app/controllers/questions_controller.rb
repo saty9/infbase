@@ -50,11 +50,11 @@ class QuestionsController < ApplicationController
   # GET /questions/1.json
   def show
     Question.increment_counter(:views, @question.id)
-    exposed_attributes = [:title, :body, :created_at, :course_id, :votes]
+    exposed_attributes = [:id, :title, :body, :created_at, :course_id, :votes]
     out = @question.as_json(only:exposed_attributes,
                             include: {
                                 topics: { only: %i[id name] },
-                                answers: { only: %i[body created_at],
+                                answers: { only: %i[id body created_at],
                                            include: :user }
                             })
     out[:voted] = @question.question_votes.where(user:current_user).exists?
@@ -103,6 +103,8 @@ class QuestionsController < ApplicationController
   # DELETE /questions/1
   # DELETE /questions/1.json
   def destroy
+    @question.question_tags.destroy_all
+    @question.question_votes.destroy_all
     @question.destroy
   end
 
