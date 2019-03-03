@@ -17,9 +17,10 @@ class AnswersController < ApplicationController
   # POST /answers.json
   def create
     @answer = Answer.new(answer_params)
+    @answer.user = current_user
 
     if @answer.save
-      render :show, status: :created, location: @answer
+      render json: @answer.as_json, status: :created, location: @answer
     else
       render json: @answer.errors, status: :unprocessable_entity
     end
@@ -50,6 +51,6 @@ class AnswersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def answer_params
-    params.require(:answer).permit(:body, :posted, :user_id)
+    params.require(:answer).permit(:body, :question_id, :user_id)
   end
 end
