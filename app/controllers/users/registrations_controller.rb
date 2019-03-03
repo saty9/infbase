@@ -4,7 +4,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   respond_to :json
 
   def show
-    render json: current_user.attach_image
+    render json: current_user
   end
 
   def create
@@ -16,7 +16,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   private
   def update_resource(resource, params)
-    # debugger
     resource.avatar.attach(io: params[:avatar], filename: 'some_name')
     resource.update_without_password(params)
     render json: resource
