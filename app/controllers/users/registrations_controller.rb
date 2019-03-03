@@ -4,7 +4,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   respond_to :json
 
   def show
-    render json: current_user
+    render json: current_user.attach_image
   end
 
   def create
@@ -14,12 +14,25 @@ class Users::RegistrationsController < Devise::RegistrationsController
     render_resource(resource)
   end
 
-  private
-  def update_resource(resource, params)
-    resource.avatar.attach(io: params[:avatar], filename: 'some_name')
-    resource.update_without_password(params)
-    render json: resource
+  def update
+    self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
+    prev_unconfirmed_email = resource.unconfirmed_email if resource.respond_to?(:unconfirmed_email)
+
+    resource.avatar.attach(account_update_params[:avatar]) if account_update_params[:avatar]
+    resource_updated = resource.update_without_password(account_update_params)
+    yield resource if block_given?
+    if resource_updated
+      bypass_sign_in resource, scope: resource_name
+
+      render json: resource.attach_image, status: 200
+    else
+      clean_up_passwords resource
+      set_minimum_password_length
+      respond_with resource
+    end
   end
+
+  private
 
   def sign_up_params
     params.require(:user).permit(:avatar, :first_name, :last_name, :email, :password, :password_confirmation)

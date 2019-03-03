@@ -18,7 +18,7 @@
 #
 
 class User < ApplicationRecord
-  # include Rails.application.routes.url_helpers
+  include Rails.application.routes.url_helpers
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
@@ -41,13 +41,9 @@ class User < ApplicationRecord
     { id: id, email: email, role: role, first_name: first_name, last_name: last_name, biography: biography }
   end
 
-  # def attach_image
-  #   image_url = ''
-  #   ActiveStorage::Current.set(host: "localhost:3000") do
-  #     image_url = rails_blob_url(avatar)
-  #   end
-  #   as_json.merge(avatar: image_url)
-  # end
+  def attach_image
+    as_json.merge(avatar: rails_blob_url(avatar)) if avatar.attached?
+  end
 
   def full_name
     "#{first_name} #{last_name}"

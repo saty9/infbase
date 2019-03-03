@@ -26,7 +26,6 @@ gem 'sucker_punch'
 
 # image processing
 gem 'mini_magick'
-gem 'active_storage_base64'
 
 group :development, :test do
   gem 'rb-readline'
