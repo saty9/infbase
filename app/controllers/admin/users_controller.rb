@@ -5,7 +5,7 @@ class Admin::UsersController < ApplicationController
 
   def index
     if params['roles']
-      render json: User.where(role: params['roles'])
+      render json: User.where(role: params['roles']).map(&:attach_info)
     else
       render json: User.all
     end

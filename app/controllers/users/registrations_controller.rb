@@ -4,7 +4,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   respond_to :json
 
   def show
-    render json: current_user.attach_image
+    render json: current_user.attach_info
   end
 
   def create
@@ -24,7 +24,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if resource_updated
       bypass_sign_in resource, scope: resource_name
 
-      render json: resource.attach_image, status: 200
+      render json: resource.attach_info, status: 200
     else
       clean_up_passwords resource
       set_minimum_password_length

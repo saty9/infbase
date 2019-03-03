@@ -41,8 +41,9 @@ class User < ApplicationRecord
     { id: id, email: email, role: role, first_name: first_name, last_name: last_name, biography: biography }
   end
 
-  def attach_image
-    as_json.merge(avatar: rails_blob_url(avatar)) if avatar.attached?
+  def attach_info
+    courses = Expertise.where(tutor_id: id).joins(:course).pluck(:name)
+    as_json.merge(courses: courses, avatar: (rails_blob_url(avatar) if avatar.attached?))
   end
 
   def full_name
