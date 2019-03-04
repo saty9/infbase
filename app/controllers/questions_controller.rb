@@ -1,31 +1,64 @@
 # frozen_string_literal: true
 
 class QuestionsController < ApplicationController
-  before_action :set_question, only: %i[show update destroy]
+  before_action :set_question, only: %i[show update destroy vote_for remove_vote]
 
   # GET /questions
   # GET /questions.json
   def index
-    @questions = Question.joins(:question_votes).group('questions.id').order('sum(question_votes.value) desc')
-    @questions = if current_user
-                   @questions.where(course: current_user.courses)
-                 else
-                   @questions.all
-                 end
+    @questions = Question.where(nil)
+    @questions = @questions.search(params[:search_string]).records if params[:search_string]
+    @questions = @questions.left_joins(:answers).where(answers: {question_id: nil}) if params[:unanswered]
+    @questions = @questions.joins(:answers) if params[:answered]
+    @questions = @questions.user(current_user.id) if params[:asked_by_me]
+    @questions = @questions.where(course: current_user.courses) if params[:user_courses]
+    @questions = @questions.where(teaching_session: current_user.teaching_sessions.where('start_date >= ?', Date.today)) if params[:upcoming_session]
+    @questions = @questions.course(params[:course]) if params[:course].present?
+    @questions = @questions.tagged_with(params[:tag]) if params[:tag].present?
+    @questions = @questions.select('votes AS vote_count', :title, :id, :views, :created_at)
+    case params[:order_by]
+    when "vote_count"
+      @questions = @questions.order('vote_count desc')
+    when "posted"
+      @questions = @questions.order('questions.created_at desc')
+    when "view_count"
+      @questions = @questions.order('questions.views desc')
+    else
+      @questions = @questions.order('vote_count desc')
+    end
 
     render json: @questions.as_json(include: {
                                       topics: { only: %i[id name] }
-                                    }, methods: :vote_count)
+                                    })
+  end
+
+  def search
+    @questions = Question.joins(:answers)
+    @questions = @questions.search(params[:search_string], size: 4).records
+    render json: @questions.as_json(only: [:id, :title])
+  end
+
+  def vote_for
+    QuestionVote.find_or_create_by(question: @question, user: current_user, value: 1)
+  end
+
+  def remove_vote
+    QuestionVote.where(question:@question, user_id:current_user.id).destroy_all
   end
 
   # GET /questions/1
   # GET /questions/1.json
   def show
-    render json: @question.as_json(include: {
-                                     topics: { only: %i[id name] },
-                                     answers: { only: %i[body created_at],
-                                                include: :user }
-                                   }, methods: :vote_count)
+    Question.increment_counter(:views, @question.id)
+    exposed_attributes = [:id, :title, :body, :created_at, :course_id, :votes]
+    out = @question.as_json(only:exposed_attributes,
+                            include: {
+                                topics: { only: %i[id name] },
+                                answers: { only: %i[id body created_at],
+                                           include: :user }
+                            })
+    out[:voted] = @question.question_votes.where(user:current_user).exists?
+    render json: out
   end
 
   # POST /questions
@@ -70,6 +103,8 @@ class QuestionsController < ApplicationController
   # DELETE /questions/1
   # DELETE /questions/1.json
   def destroy
+    @question.question_tags.destroy_all
+    @question.question_votes.destroy_all
     @question.destroy
   end
 

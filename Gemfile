@@ -26,6 +26,9 @@ gem 'sucker_punch'
 
 # image processing
 gem 'mini_magick'
+#elastic search
+gem 'elasticsearch-model', github: 'elastic/elasticsearch-rails', branch: '6.x'
+gem 'elasticsearch-rails', github: 'elastic/elasticsearch-rails', branch: '6.x'
 
 group :development, :test do
   gem 'rb-readline'

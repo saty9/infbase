@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -12,10 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_190_304_150_813) do
-  # These are extensions that must be enabled in order to support this database
-  enable_extension 'plpgsql'
+ActiveRecord::Schema.define(version: 2019_03_01_174409) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "answers", force: :cascade do |t|
+    t.text "body"
+    t.bigint "user_id"
+    t.bigint "question_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_id"], name: "index_answers_on_question_id"
+    t.index ["user_id"], name: "index_answers_on_user_id"
+  end
+  
   create_table 'active_storage_attachments', force: :cascade do |t|
     t.string 'name', null: false
     t.string 'record_type', null: false
@@ -37,103 +46,86 @@ ActiveRecord::Schema.define(version: 20_190_304_150_813) do
     t.index ['key'], name: 'index_active_storage_blobs_on_key', unique: true
   end
 
-  create_table 'answers', force: :cascade do |t|
-    t.text 'body'
-    t.bigint 'user_id'
-    t.bigint 'question_id'
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.index ['question_id'], name: 'index_answers_on_question_id'
-    t.index ['user_id'], name: 'index_answers_on_user_id'
+  create_table "course_members", force: :cascade do |t|
+    t.integer "role"
+    t.bigint "user_id"
+    t.bigint "course_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_course_members_on_course_id"
+    t.index ["user_id"], name: "index_course_members_on_user_id"
   end
 
-  create_table 'course_members', force: :cascade do |t|
-    t.integer 'role'
-    t.bigint 'user_id'
-    t.bigint 'course_id'
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.index ['course_id'], name: 'index_course_members_on_course_id'
-    t.index ['user_id'], name: 'index_course_members_on_user_id'
+  create_table "courses", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  create_table 'courses', force: :cascade do |t|
-    t.string 'name'
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
+  create_table "expertises", force: :cascade do |t|
+    t.bigint "course_id"
+    t.bigint "tutor_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_expertises_on_course_id"
+    t.index ["tutor_id"], name: "index_expertises_on_tutor_id"
   end
 
-  create_table 'expertises', force: :cascade do |t|
-    t.bigint 'course_id'
-    t.bigint 'tutor_id'
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.index ['course_id'], name: 'index_expertises_on_course_id'
-    t.index ['tutor_id'], name: 'index_expertises_on_tutor_id'
+  create_table "hours", force: :cascade do |t|
+    t.time "start"
+    t.time "end"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  create_table 'hours', force: :cascade do |t|
-    t.time 'start'
-    t.time 'end'
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
+  create_table "interests", force: :cascade do |t|
+    t.bigint "teaching_session_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["teaching_session_id"], name: "index_interests_on_teaching_session_id"
+    t.index ["user_id"], name: "index_interests_on_user_id"
   end
 
-  create_table 'interests', force: :cascade do |t|
-    t.bigint 'teaching_session_id'
-    t.bigint 'user_id'
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.index ['teaching_session_id'], name: 'index_interests_on_teaching_session_id'
-    t.index ['user_id'], name: 'index_interests_on_user_id'
+  create_table "jwt_blacklist", force: :cascade do |t|
+    t.string "jti", null: false
+    t.datetime "exp", null: false
+    t.index ["jti"], name: "index_jwt_blacklist_on_jti"
   end
 
-  create_table 'jwt_blacklist', force: :cascade do |t|
-    t.string 'jti', null: false
-    t.datetime 'exp', null: false
-    t.index ['jti'], name: 'index_jwt_blacklist_on_jti'
+  create_table "question_tags", force: :cascade do |t|
+    t.bigint "topic_id"
+    t.bigint "question_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_id"], name: "index_question_tags_on_question_id"
+    t.index ["topic_id"], name: "index_question_tags_on_topic_id"
   end
 
-  create_table 'question_tags', force: :cascade do |t|
-    t.bigint 'topic_id'
-    t.bigint 'question_id'
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.index ['question_id'], name: 'index_question_tags_on_question_id'
-    t.index ['topic_id'], name: 'index_question_tags_on_topic_id'
+  create_table "question_votes", force: :cascade do |t|
+    t.bigint "question_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "value", default: 1
+    t.index ["question_id"], name: "index_question_votes_on_question_id"
+    t.index ["user_id"], name: "index_question_votes_on_user_id"
   end
 
-  create_table 'question_votes', force: :cascade do |t|
-    t.bigint 'question_id'
-    t.bigint 'user_id'
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.integer 'value', default: 1
-    t.index ['question_id'], name: 'index_question_votes_on_question_id'
-    t.index ['user_id'], name: 'index_question_votes_on_user_id'
-  end
-
-  create_table 'questions', force: :cascade do |t|
-    t.string 'title'
-    t.text 'body'
-    t.boolean 'anonymous'
-    t.bigint 'user_id'
-    t.bigint 'course_id'
-    t.bigint 'teaching_session_id'
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.index ['course_id'], name: 'index_questions_on_course_id'
-    t.index ['teaching_session_id'], name: 'index_questions_on_teaching_session_id'
-    t.index ['user_id'], name: 'index_questions_on_user_id'
-  end
-
-  create_table 'report_tags', force: :cascade do |t|
-    t.bigint 'report_id'
-    t.bigint 'tag_id'
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.index ['report_id'], name: 'index_report_tags_on_report_id'
-    t.index ['tag_id'], name: 'index_report_tags_on_tag_id'
+  create_table "questions", force: :cascade do |t|
+    t.string "title"
+    t.text "body"
+    t.boolean "anonymous"
+    t.bigint "user_id"
+    t.bigint "course_id"
+    t.bigint "teaching_session_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "views", default: 0
+    t.integer "votes", default: 0
+    t.index ["course_id"], name: "index_questions_on_course_id"
+    t.index ["teaching_session_id"], name: "index_questions_on_teaching_session_id"
+    t.index ["user_id"], name: "index_questions_on_user_id"
   end
 
   create_table 'report_topics', force: :cascade do |t|
@@ -155,31 +147,32 @@ ActiveRecord::Schema.define(version: 20_190_304_150_813) do
     t.index ['teaching_session_id'], name: 'index_reports_on_teaching_session_id'
   end
 
-  create_table 'tags', force: :cascade do |t|
-    t.bigint 'topic_id'
-    t.bigint 'report_id'
-    t.bigint 'question_id'
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.index ['question_id'], name: 'index_tags_on_question_id'
-    t.index ['report_id'], name: 'index_tags_on_report_id'
-    t.index ['topic_id'], name: 'index_tags_on_topic_id'
+  create_table "tags", force: :cascade do |t|
+    t.bigint "topic_id"
+    t.bigint "report_id"
+    t.bigint "question_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_id"], name: "index_tags_on_question_id"
+    t.index ["report_id"], name: "index_tags_on_report_id"
+    t.index ["topic_id"], name: "index_tags_on_topic_id"
   end
 
-  create_table 'teaching_sessions', force: :cascade do |t|
-    t.bigint 'tutor_id'
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.bigint 'hour_id'
-    t.date 'start_date'
-    t.index ['hour_id'], name: 'index_teaching_sessions_on_hour_id'
-    t.index ['tutor_id'], name: 'index_teaching_sessions_on_tutor_id'
+  create_table "teaching_sessions", force: :cascade do |t|
+    t.time "start_time"
+    t.bigint "tutor_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "hour_id"
+    t.date "start_date"
+    t.index ["hour_id"], name: "index_teaching_sessions_on_hour_id"
+    t.index ["tutor_id"], name: "index_teaching_sessions_on_tutor_id"
   end
 
-  create_table 'topics', force: :cascade do |t|
-    t.string 'name'
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
+  create_table "topics", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table 'users', force: :cascade do |t|

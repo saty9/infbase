@@ -30,10 +30,11 @@ class User < ApplicationRecord
   has_many :answers
   has_many :interests
   has_many :questions
-  has_many :expertises
+  has_many :question_votes
+  has_many :expertises, foreign_key: :tutor_id
   has_many :course_members
-  has_many :teaching_sessions
-  has_many :courses, through: :course_members
+  has_many :teaching_sessions, foreign_key: :tutor_id
+  has_many :courses, through: :expertises
   has_many :reports, through: :teaching_sessions
   has_one_attached :avatar
 

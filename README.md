@@ -9,6 +9,7 @@
   * Download the repo
   * Install dependencies with > bundle
   * Set environment variables `DEVISE_JWT_SECRET_KEY` and `DATABASE_PASSWORD`
+  * Run bundle exec rake environment elasticsearch:import:model CLASS='Question' FORCE=true
   * Start the server with > foreman start
 
 * Ruby version
