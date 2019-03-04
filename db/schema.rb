@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_02_191953) do
+ActiveRecord::Schema.define(version: 2019_03_04_150813) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -126,6 +126,24 @@ ActiveRecord::Schema.define(version: 2019_03_02_191953) do
     t.index ["user_id"], name: "index_questions_on_user_id"
   end
 
+  create_table "report_tags", force: :cascade do |t|
+    t.bigint "report_id"
+    t.bigint "tag_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["report_id"], name: "index_report_tags_on_report_id"
+    t.index ["tag_id"], name: "index_report_tags_on_tag_id"
+  end
+
+  create_table "report_topics", force: :cascade do |t|
+    t.bigint "report_id"
+    t.bigint "topic_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["report_id"], name: "index_report_topics_on_report_id"
+    t.index ["topic_id"], name: "index_report_topics_on_topic_id"
+  end
+
   create_table "reports", force: :cascade do |t|
     t.integer "students"
     t.text "comment"
@@ -195,6 +213,10 @@ ActiveRecord::Schema.define(version: 2019_03_02_191953) do
   add_foreign_key "questions", "courses"
   add_foreign_key "questions", "teaching_sessions"
   add_foreign_key "questions", "users"
+  add_foreign_key "report_tags", "reports"
+  add_foreign_key "report_tags", "tags"
+  add_foreign_key "report_topics", "reports"
+  add_foreign_key "report_topics", "topics"
   add_foreign_key "reports", "teaching_sessions"
   add_foreign_key "tags", "questions"
   add_foreign_key "tags", "reports"

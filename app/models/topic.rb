@@ -11,5 +11,5 @@
 #
 
 class Topic < ApplicationRecord
-  has_many :tags
+  has_many :report_topics
 end

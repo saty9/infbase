@@ -16,7 +16,8 @@
 class Report < ApplicationRecord
   belongs_to :teaching_session
 
-  has_many :tags
+  has_many :report_topics
+  has_many :topics, through: :report_topics
 
   scope :of_tutor, lambda { |tutor_id|
     joins(:teaching_session)
@@ -39,12 +40,11 @@ class Report < ApplicationRecord
 
   def self.to_csv(start_date, end_date)
     csv = []
-
     Report.in_range(start_date, end_date).each do |report|
       csv << {"date": "#{report.teaching_session.start_date} #{report.teaching_session.hour.start.strftime('%H:%M')}", 
               "tutor": report.teaching_session.tutor.full_name, 
               "students": report.students, 
-              "topics": 'no topics', 
+              "topics": self.topics.pluck(:name), 
               "comments": report.comment}
     end
     csv
@@ -58,7 +58,10 @@ class Report < ApplicationRecord
     hour = teaching_session.hour.start.strftime('%H:%M')
     date = teaching_session.start_date.strftime('%-d %b %y')
     tutor = teaching_session.tutor
+    topics = self.topics.pluck(:name)
+
     as_json.merge(date: "#{hour} - #{date}",
-                  tutor_name: "#{tutor.first_name} #{tutor.last_name}")
+                  tutor_name: "#{tutor.first_name} #{tutor.last_name}",
+                  topics: topics)
   end
 end
