@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       get 'stats', on: :collection
     end
     resources :hours, only: [:index]
+    resources :interests, only: %i[index create destroy]
     resources :topics do
       get 'stats', on: :collection
     end
@@ -33,17 +34,28 @@ Rails.application.routes.draw do
                  passwords: 'users/passwords'
                }
 
+    devise_scope :user do
+      get '/profile', controller: 'users/registrations', action: :show
+    end
     namespace 'users' do
       get ':id/courses', controller: 'related', action: :courses
     end
 
     namespace 'admin' do
-      resources :users, only: %i[index update]
+      resources :users, only: %i[index update] do
+        collection do
+          post 'send_email'
+        end
+      end
       resources :hours, only: %i[index create update destroy]
       resources :teaching_sessions, only: %i[create update destroy]
       resources :expertises, only: %i[index create destroy]
       resources :courses, only: %i[create update destroy]
-      resources :reports, only: %i[index show update]
+      resources :reports, only: %i[index show update] do
+        collection do
+          get 'export_csv'
+        end
+      end
     end
   end
 end

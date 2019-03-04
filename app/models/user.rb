@@ -18,6 +18,8 @@
 #
 
 class User < ApplicationRecord
+  include Rails.application.routes.url_helpers
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :jwt_authenticatable,
@@ -34,8 +36,18 @@ class User < ApplicationRecord
   has_many :teaching_sessions, foreign_key: :tutor_id
   has_many :courses, through: :expertises
   has_many :reports, through: :teaching_sessions
+  has_one_attached :avatar
 
   def attributes
-    { id: id, email: email, role: role, first_name: first_name, last_name: last_name }
+    { id: id, email: email, role: role, first_name: first_name, last_name: last_name, biography: biography }
+  end
+
+  def attach_info
+    courses = Expertise.where(tutor_id: id).joins(:course).pluck(:name)
+    as_json.merge(courses: courses, avatar: (rails_blob_url(avatar) if avatar.attached?))
+  end
+
+  def full_name
+    "#{first_name} #{last_name}"
   end
 end
