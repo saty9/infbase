@@ -20,7 +20,7 @@ class Admin::ReportsController < ApplicationController
     if @report.update(report_params)
       @report.update(completed: true)
       ReportTopic.where(report_id: @report.id).destroy_all
-      params["report"]["topics"].each do |topic_name|
+      params['report']['topics'].each do |topic_name|
         topic = Topic.find_or_create_by(name: topic_name)
         report_topic = ReportTopic.find_or_create_by(report_id: @report.id, topic_id: topic.id)
       end

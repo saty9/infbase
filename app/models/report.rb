@@ -41,11 +41,11 @@ class Report < ApplicationRecord
   def self.to_csv(start_date, end_date)
     csv = []
     Report.in_range(start_date, end_date).each do |report|
-      csv << {"date": "#{report.teaching_session.start_date} #{report.teaching_session.hour.start.strftime('%H:%M')}", 
-              "tutor": report.teaching_session.tutor.full_name, 
-              "students": report.students, 
-              "topics": self.topics.pluck(:name), 
-              "comments": report.comment}
+      csv << { "date": "#{report.teaching_session.start_date} #{report.teaching_session.hour.start.strftime('%H:%M')}",
+               "tutor": report.teaching_session.tutor.full_name,
+               "students": report.students,
+               "topics": topics.pluck(:name),
+               "comments": report.comment }
     end
     csv
   end

@@ -1,5 +1,6 @@
-class InterestsController < ApplicationController
+# frozen_string_literal: true
 
+class InterestsController < ApplicationController
   def index
     render json: current_user.interests
   end
