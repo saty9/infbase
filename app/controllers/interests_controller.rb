@@ -2,7 +2,7 @@
 
 class InterestsController < ApplicationController
   def index
-    render json: current_user.interests
+    render json: Interest.where(teaching_session_id: params[:session_id])
   end
 
   def create

@@ -43,7 +43,7 @@ class User < ApplicationRecord
   end
 
   def attach_info
-    courses = Expertise.where(tutor_id: id).joins(:course).pluck(:name)
+    courses = expertises.joins(:course).pluck(:name)
     as_json.merge(courses: courses, avatar: (rails_blob_url(avatar) if avatar.attached?))
   end
 

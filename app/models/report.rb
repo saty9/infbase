@@ -15,7 +15,7 @@
 class Report < ApplicationRecord
   belongs_to :teaching_session
 
-  has_many :report_topics
+  has_many :report_topics, dependent: :destroy
   has_many :topics, through: :report_topics
 
   scope :of_tutor, lambda { |tutor_id|
@@ -43,7 +43,7 @@ class Report < ApplicationRecord
       csv << { "date": "#{report.teaching_session.start_date} #{report.teaching_session.hour.start.strftime('%H:%M')}",
                "tutor": report.teaching_session.tutor.full_name,
                "students": report.students,
-               "topics": topics.pluck(:name),
+               "topics": report.topics.pluck(:name),
                "comments": report.comment }
     end
     csv
