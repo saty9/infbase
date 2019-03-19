@@ -23,7 +23,7 @@ class Question < ApplicationRecord
   include Elasticsearch::Model::Callbacks
   belongs_to :user
   belongs_to :course
-  belongs_to :teaching_session
+  belongs_to :teaching_session, optional: true
 
   has_many :answers
   has_many :question_tags

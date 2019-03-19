@@ -4,7 +4,7 @@ class Admin::ExpertisesController < ApplicationController
   respond_to :json
 
   def index
-    render json: Expertise.all.map(&:to_json)
+    render json: current_user.expertises.all.map(&:to_json)
   end
 
   def create
