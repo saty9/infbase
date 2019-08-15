@@ -50,4 +50,8 @@ class User < ApplicationRecord
   def full_name
     "#{first_name} #{last_name}"
   end
+
+  def is_staff?
+    role == "admin" or role == "tutor"
+  end
 end

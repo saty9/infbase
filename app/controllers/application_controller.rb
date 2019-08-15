@@ -4,6 +4,7 @@ class ApplicationController < ActionController::API
   include Response
   before_action :authenticate_user!
   respond_to :json
+  include Pundit
 
   def render_resource(resource)
     if resource.errors.empty?

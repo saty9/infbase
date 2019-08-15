@@ -26,6 +26,7 @@ class QuestionsController < ApplicationController
     else
       @questions = @questions.order('vote_count desc')
     end
+    authorize @questions
 
     render json: @questions.as_json(include: {
                                       topics: { only: %i[id name] }

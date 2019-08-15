@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.5.1'
+ruby '2.6.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.2'
@@ -29,6 +29,7 @@ gem 'mini_magick'
 #elastic search
 gem 'elasticsearch-model', github: 'elastic/elasticsearch-rails', branch: '6.x'
 gem 'elasticsearch-rails', github: 'elastic/elasticsearch-rails', branch: '6.x'
+gem 'pundit', '2'
 
 group :development, :test do
   gem 'rb-readline'
