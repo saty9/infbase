@@ -4,6 +4,7 @@ class Admin::UsersController < ApplicationController
   respond_to :json
 
   def index
+    authorize User
     if params['roles']
       render json: User.where(role: params['roles']).map(&:attach_info)
     else
@@ -13,6 +14,7 @@ class Admin::UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
+    authorize @user, :admin_update
     p params[:user]
 
     if params[:user][:password].blank?
@@ -28,6 +30,7 @@ class Admin::UsersController < ApplicationController
   end
 
   def send_email
+    authorize User
     @group = User.where(role: params[:recipient].downcase[0..-2])
     UserMailer.email_group(@group, params[:title], params[:message])
   end
