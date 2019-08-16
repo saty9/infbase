@@ -24,7 +24,7 @@ class Report < ApplicationRecord
   }
 
   scope :in_range, lambda { |start_date, end_date|
-    where(completed: true)
+    where.not(students: nil)
       .joins(:teaching_session)
       .where('teaching_sessions.start_date > ? AND teaching_sessions.start_date < ?',
              start_date, end_date)

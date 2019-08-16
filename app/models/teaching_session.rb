@@ -46,7 +46,7 @@ class TeachingSession < ApplicationRecord
   end
 
   def create_report
-    Report.create(teaching_session_id: id, completed: false)
+    Report.create(teaching_session_id: id)
   end
 
   def self.update_with_type(session:, type:, params:, until_date:)
