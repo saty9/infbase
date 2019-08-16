@@ -14,6 +14,7 @@ class Admin::HoursController < ApplicationController
 
   def create
     @hour = Hour.new(hour_params)
+    authorize @hour
 
     if @hour.save
       render json: (formatted_hour @hour.as_json)
@@ -23,6 +24,7 @@ class Admin::HoursController < ApplicationController
   end
 
   def update
+    authorize @hour
     if @hour.update(hour_params)
       render json: (formatted_hour @hour.as_json)
     else
@@ -31,6 +33,7 @@ class Admin::HoursController < ApplicationController
   end
 
   def destroy
+    authorize @hour
     @hour.destroy
   end
 
