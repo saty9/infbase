@@ -5,12 +5,14 @@ class TopicsController < ApplicationController
 
   def index
     @topics = Topic.all
+    authorize @topics
     render json: @topics.as_json(only: %i[id name])
   end
 
   def stats
     @topics = Topic.joins(:questions).merge(Question.asked_since(params[:since]))
     @topics = @topics.group('topics.id').select('SUM(questions.votes) AS vote_count','name','id', 'COUNT(questions)')
+    authorize @topics
     render json: @topics.as_json
   end
 
@@ -18,7 +20,7 @@ class TopicsController < ApplicationController
 
   def create
     @topic = Topic.new(topic_params)
-
+    authorize @topic
     if @topic.save
       render :show, status: :created, location: @topic
     else
@@ -27,6 +29,7 @@ class TopicsController < ApplicationController
   end
 
   def update
+    authorize @topic
     if @topic.update(topic_params)
       render :show, status: :ok, location: @topic
     else
@@ -35,6 +38,7 @@ class TopicsController < ApplicationController
   end
 
   def destroy
+    authorize @topic
     @topic.destroy
   end
 

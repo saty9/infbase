@@ -10,10 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_01_174409) do
+ActiveRecord::Schema.define(version: 2019_07_03_175948) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.bigint "byte_size", null: false
+    t.string "checksum", null: false
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
 
   create_table "answers", force: :cascade do |t|
     t.text "body"
@@ -23,27 +44,6 @@ ActiveRecord::Schema.define(version: 2019_03_01_174409) do
     t.datetime "updated_at", null: false
     t.index ["question_id"], name: "index_answers_on_question_id"
     t.index ["user_id"], name: "index_answers_on_user_id"
-  end
-  
-  create_table 'active_storage_attachments', force: :cascade do |t|
-    t.string 'name', null: false
-    t.string 'record_type', null: false
-    t.bigint 'record_id', null: false
-    t.bigint 'blob_id', null: false
-    t.datetime 'created_at', null: false
-    t.index ['blob_id'], name: 'index_active_storage_attachments_on_blob_id'
-    t.index %w[record_type record_id name blob_id], name: 'index_active_storage_attachments_uniqueness', unique: true
-  end
-
-  create_table 'active_storage_blobs', force: :cascade do |t|
-    t.string 'key', null: false
-    t.string 'filename', null: false
-    t.string 'content_type'
-    t.text 'metadata'
-    t.bigint 'byte_size', null: false
-    t.string 'checksum', null: false
-    t.datetime 'created_at', null: false
-    t.index ['key'], name: 'index_active_storage_blobs_on_key', unique: true
   end
 
   create_table "course_members", force: :cascade do |t|
@@ -128,23 +128,22 @@ ActiveRecord::Schema.define(version: 2019_03_01_174409) do
     t.index ["user_id"], name: "index_questions_on_user_id"
   end
 
-  create_table 'report_topics', force: :cascade do |t|
-    t.bigint 'report_id'
-    t.bigint 'topic_id'
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.index ['report_id'], name: 'index_report_topics_on_report_id'
-    t.index ['topic_id'], name: 'index_report_topics_on_topic_id'
+  create_table "report_topics", force: :cascade do |t|
+    t.bigint "report_id"
+    t.bigint "topic_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["report_id"], name: "index_report_topics_on_report_id"
+    t.index ["topic_id"], name: "index_report_topics_on_topic_id"
   end
 
-  create_table 'reports', force: :cascade do |t|
-    t.integer 'students'
-    t.text 'comment'
-    t.boolean 'completed'
-    t.bigint 'teaching_session_id'
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.index ['teaching_session_id'], name: 'index_reports_on_teaching_session_id'
+  create_table "reports", force: :cascade do |t|
+    t.integer "students"
+    t.text "comment"
+    t.bigint "teaching_session_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["teaching_session_id"], name: "index_reports_on_teaching_session_id"
   end
 
   create_table "tags", force: :cascade do |t|
@@ -175,46 +174,46 @@ ActiveRecord::Schema.define(version: 2019_03_01_174409) do
     t.datetime "updated_at", null: false
   end
 
-  create_table 'users', force: :cascade do |t|
-    t.string 'email', default: '', null: false
-    t.string 'encrypted_password', default: '', null: false
-    t.string 'reset_password_token'
-    t.datetime 'reset_password_sent_at'
-    t.datetime 'remember_created_at'
-    t.string 'first_name'
-    t.string 'last_name'
-    t.integer 'role', default: 0, null: false
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.string 'biography'
-    t.index ['email'], name: 'index_users_on_email', unique: true
-    t.index ['reset_password_token'], name: 'index_users_on_reset_password_token', unique: true
+  create_table "users", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.string "first_name"
+    t.string "last_name"
+    t.integer "role", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "biography"
+    t.string "username", default: "email", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["username"], name: "index_users_on_username", unique: true
   end
 
-  add_foreign_key 'active_storage_attachments', 'active_storage_blobs', column: 'blob_id'
-  add_foreign_key 'answers', 'questions'
-  add_foreign_key 'answers', 'users'
-  add_foreign_key 'course_members', 'courses'
-  add_foreign_key 'course_members', 'users'
-  add_foreign_key 'expertises', 'courses'
-  add_foreign_key 'expertises', 'users', column: 'tutor_id'
-  add_foreign_key 'interests', 'teaching_sessions'
-  add_foreign_key 'interests', 'users'
-  add_foreign_key 'question_tags', 'questions'
-  add_foreign_key 'question_tags', 'topics'
-  add_foreign_key 'question_votes', 'questions'
-  add_foreign_key 'question_votes', 'users'
-  add_foreign_key 'questions', 'courses'
-  add_foreign_key 'questions', 'teaching_sessions'
-  add_foreign_key 'questions', 'users'
-  add_foreign_key 'report_tags', 'reports'
-  add_foreign_key 'report_tags', 'tags'
-  add_foreign_key 'report_topics', 'reports'
-  add_foreign_key 'report_topics', 'topics'
-  add_foreign_key 'reports', 'teaching_sessions'
-  add_foreign_key 'tags', 'questions'
-  add_foreign_key 'tags', 'reports'
-  add_foreign_key 'tags', 'topics'
-  add_foreign_key 'teaching_sessions', 'hours'
-  add_foreign_key 'teaching_sessions', 'users', column: 'tutor_id'
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "answers", "questions"
+  add_foreign_key "answers", "users"
+  add_foreign_key "course_members", "courses"
+  add_foreign_key "course_members", "users"
+  add_foreign_key "expertises", "courses"
+  add_foreign_key "expertises", "users", column: "tutor_id"
+  add_foreign_key "interests", "teaching_sessions"
+  add_foreign_key "interests", "users"
+  add_foreign_key "question_tags", "questions"
+  add_foreign_key "question_tags", "topics"
+  add_foreign_key "question_votes", "questions"
+  add_foreign_key "question_votes", "users"
+  add_foreign_key "questions", "courses"
+  add_foreign_key "questions", "teaching_sessions"
+  add_foreign_key "questions", "users"
+  add_foreign_key "report_topics", "reports"
+  add_foreign_key "report_topics", "topics"
+  add_foreign_key "reports", "teaching_sessions"
+  add_foreign_key "tags", "questions"
+  add_foreign_key "tags", "reports"
+  add_foreign_key "tags", "topics"
+  add_foreign_key "teaching_sessions", "hours"
+  add_foreign_key "teaching_sessions", "users", column: "tutor_id"
 end

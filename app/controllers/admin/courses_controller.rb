@@ -5,6 +5,7 @@ class Admin::CoursesController < ApplicationController
 
   def create
     @course = Course.new(course_params)
+    authorize @course
 
     if @course.save
       render json: @course, status: :ok
@@ -14,6 +15,7 @@ class Admin::CoursesController < ApplicationController
   end
 
   def update
+    authorize @course
     if @course.update(course_params)
       render json: @course, status: :ok
     else
@@ -22,6 +24,7 @@ class Admin::CoursesController < ApplicationController
   end
 
   def destroy
+    authorize @course
     @course.destroy
   end
 

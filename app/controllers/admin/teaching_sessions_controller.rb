@@ -2,8 +2,10 @@
 
 class Admin::TeachingSessionsController < ApplicationController
   before_action :set_session, only: %i[update destroy]
+  after_action :verify_authorized
 
   def create
+    authorize TeachingSession
     @sessions = TeachingSession.create_with_type(params: session_params,
                                                  type: params[:occurrence],
                                                  until_date: params[:until])
@@ -13,6 +15,7 @@ class Admin::TeachingSessionsController < ApplicationController
   end
 
   def update
+    authorize @session
     TeachingSession.update_with_type(session: @session,
                                      type: params[:occurrence],
                                      params: session_params,
@@ -22,6 +25,7 @@ class Admin::TeachingSessionsController < ApplicationController
   end
 
   def destroy
+    authorize @session
     TeachingSession.destroy_with_type(session: @session,
                                       type: params[:occurrence],
                                       until_date: params[:until])

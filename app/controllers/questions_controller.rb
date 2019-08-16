@@ -26,6 +26,7 @@ class QuestionsController < ApplicationController
     else
       @questions = @questions.order('vote_count desc')
     end
+    authorize @questions
 
     render json: @questions.as_json(include: {
                                       topics: { only: %i[id name] }
@@ -35,6 +36,7 @@ class QuestionsController < ApplicationController
   def search
     @questions = Question.joins(:answers)
     @questions = @questions.search(params[:search_string], size: 4).records
+    authorize @questions
     render json: @questions.as_json(only: [:id, :title])
   end
 
@@ -58,6 +60,7 @@ class QuestionsController < ApplicationController
                                            include: :user }
                             })
     out[:voted] = @question.question_votes.where(user:current_user).exists?
+    authorize @question
     render json: out
   end
 
@@ -65,6 +68,7 @@ class QuestionsController < ApplicationController
   # POST /questions.json
   def create
     @question = Question.new(question_params)
+    authorize @question
     @question.user = current_user
 
     if @question.save
@@ -78,7 +82,7 @@ class QuestionsController < ApplicationController
         end
         QuestionTag.create(question: @question, topic_id: tag_id)
       end
-      if current_user.role != :student
+      if current_user.role != "student"
         @question.answers.create(user: current_user, body: params[:answer])
         @question.question_votes.create(user: current_user, value: params[:interest])
       else
@@ -93,6 +97,7 @@ class QuestionsController < ApplicationController
   # PATCH/PUT /questions/1
   # PATCH/PUT /questions/1.json
   def update
+    authorize @question
     if @question.update(question_params)
       render :show, status: :ok, location: @question
     else
@@ -103,6 +108,7 @@ class QuestionsController < ApplicationController
   # DELETE /questions/1
   # DELETE /questions/1.json
   def destroy
+    authorize @question
     @question.question_tags.destroy_all
     @question.question_votes.destroy_all
     @question.destroy
