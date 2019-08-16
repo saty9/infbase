@@ -9,6 +9,7 @@ class Admin::ExpertisesController < ApplicationController
 
   def create
     @expertise = Expertise.new(expertise_params)
+    authorize @expertise
 
     if @expertise.save
       render json: @expertise.to_json, status: :ok
@@ -19,6 +20,7 @@ class Admin::ExpertisesController < ApplicationController
 
   def destroy
     @expertise = Expertise.find(params[:id])
+    authorize @expertise
     @expertise.destroy
   end
 
