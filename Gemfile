@@ -27,8 +27,8 @@ gem 'sucker_punch'
 # image processing
 gem 'mini_magick'
 #elastic search
-gem 'elasticsearch-model', github: 'elastic/elasticsearch-rails', branch: '6.x'
-gem 'elasticsearch-rails', github: 'elastic/elasticsearch-rails', branch: '6.x'
+gem 'elasticsearch-model', '~> 7.0.0.pre'
+gem 'elasticsearch-rails', '~> 7.0.0.pre'
 gem 'pundit', '>= 2'
 
 group :development, :test do
