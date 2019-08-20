@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class CoursesController < ApplicationController
+  before_action :authenticate_user!, except: :index
   def index
     render json: Course.all.as_json(only: [:id,:name])
   end
