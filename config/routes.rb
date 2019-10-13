@@ -36,6 +36,7 @@ Rails.application.routes.draw do
 
     devise_scope :user do
       get '/profile', controller: 'users/registrations', action: :show
+      get '/check_login', controller: 'users/sessions', action: :check_login
     end
     namespace 'users' do
       get ':id/courses', controller: 'related', action: :courses

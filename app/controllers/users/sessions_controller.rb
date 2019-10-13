@@ -2,6 +2,11 @@
 
 class Users::SessionsController < Devise::SessionsController
   respond_to :json
+  before_action :authenticate_user!, only: :check_login
+
+  def check_login
+    render json: current_user
+  end
 
   private
 
