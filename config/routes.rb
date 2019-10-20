@@ -57,6 +57,7 @@ Rails.application.routes.draw do
           get 'export_csv'
         end
       end
+      resources :useful_resources
     end
   end
 end
