@@ -15,4 +15,12 @@ class TeachingSessionsController < ApplicationController
   def show
     @session = TeachingSession.find(params[:id])
   end
+
+  def forecast
+    first_day = params[:first_day].to_date
+    finish = first_day + 5.days
+    sessions = TeachingSession.in_range(first_day, finish)
+    render json: sessions.as_json(methods: [:forecast_busyness, :start_hour])
+  end
+
 end

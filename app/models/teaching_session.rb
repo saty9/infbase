@@ -83,4 +83,18 @@ class TeachingSession < ApplicationRecord
     { id: id, hour_id: hour.id, start_date: start_date.strftime('%Y.%-m.%-e'),
       tutor_f_name: tutor.first_name, tutor_id: tutor_id, courses: tutor.expertises.joins(:course).pluck(:name) }
   end
+
+  def forecast_busyness
+    last_session = TeachingSession.where(start_date: self.start_date - 7, start_time: self.start_time).first()
+    if last_session
+      {previous_session_attendance: last_session.report.students, interest: self.interests.count}
+    else
+      {previous_session_attendance: 0, interest: self.interests.count}
+    end
+  end
+
+  def start_hour
+    self.hour.start.hour
+  end
+
 end
