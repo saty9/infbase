@@ -85,7 +85,7 @@ class TeachingSession < ApplicationRecord
   end
 
   def forecast_busyness
-    last_session = TeachingSession.where(start_date: self.start_date - 7, start_time: self.start_time).first()
+    last_session = TeachingSession.where(start_date: self.start_date - 7, hour: self.hour).first()
     if last_session
       {previous_session_attendance: last_session.report.students, interest: self.interests.count}
     else

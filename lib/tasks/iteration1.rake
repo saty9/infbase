@@ -28,7 +28,6 @@ task setup: [:clear_useful_resources_and_schedule, :environment] do
     s2 = TeachingSession.create(start_date:start_time + 7.days, tutor:u, hour: h)
     s3 = TeachingSession.create(start_date:start_time + 14.days, tutor:u, hour: h)
     for session in [s1,s2,s3] do
-      session.create_report()
       if session.start_date.past?
         session.report.update(students: rand(3..13))
       end
