@@ -25,8 +25,8 @@ class Question < ApplicationRecord
   belongs_to :course
   belongs_to :teaching_session, optional: true
 
-  has_many :answers
-  has_many :question_tags
+  has_many :answers, dependent: :delete_all
+  has_many :question_tags, dependent: :delete_all
   has_many :topics, through: :question_tags
   has_many :question_votes
   scope :user, -> (user_id) { where user_id: user_id }

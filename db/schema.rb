@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_03_175948) do
+ActiveRecord::Schema.define(version: 2019_10_28_161905) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -174,6 +174,14 @@ ActiveRecord::Schema.define(version: 2019_07_03_175948) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "useful_resources", force: :cascade do |t|
+    t.text "body"
+    t.bigint "course_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_useful_resources_on_course_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -193,27 +201,28 @@ ActiveRecord::Schema.define(version: 2019_07_03_175948) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "answers", "questions"
+  add_foreign_key "answers", "questions", on_delete: :cascade
   add_foreign_key "answers", "users"
   add_foreign_key "course_members", "courses"
   add_foreign_key "course_members", "users"
   add_foreign_key "expertises", "courses"
   add_foreign_key "expertises", "users", column: "tutor_id"
-  add_foreign_key "interests", "teaching_sessions"
+  add_foreign_key "interests", "teaching_sessions", on_delete: :cascade
   add_foreign_key "interests", "users"
   add_foreign_key "question_tags", "questions"
   add_foreign_key "question_tags", "topics"
   add_foreign_key "question_votes", "questions"
   add_foreign_key "question_votes", "users"
   add_foreign_key "questions", "courses"
-  add_foreign_key "questions", "teaching_sessions"
+  add_foreign_key "questions", "teaching_sessions", on_delete: :nullify
   add_foreign_key "questions", "users"
   add_foreign_key "report_topics", "reports"
   add_foreign_key "report_topics", "topics"
-  add_foreign_key "reports", "teaching_sessions"
+  add_foreign_key "reports", "teaching_sessions", on_delete: :cascade
   add_foreign_key "tags", "questions"
   add_foreign_key "tags", "reports"
   add_foreign_key "tags", "topics"
   add_foreign_key "teaching_sessions", "hours"
   add_foreign_key "teaching_sessions", "users", column: "tutor_id"
+  add_foreign_key "useful_resources", "courses"
 end

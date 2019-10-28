@@ -18,7 +18,7 @@ class TeachingSession < ApplicationRecord
   belongs_to :tutor, class_name: 'User'
   belongs_to :hour
 
-  has_many :questions
+  has_many :questions, dependent: :nullify
   has_many :interests, dependent: :destroy
   has_one :report, dependent: :destroy
 
@@ -46,7 +46,7 @@ class TeachingSession < ApplicationRecord
   end
 
   def create_report
-    Report.create(teaching_session_id: id)
+    Report.create(teaching_session: self )
   end
 
   def self.update_with_type(session:, type:, params:, until_date:)
