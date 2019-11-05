@@ -8,16 +8,16 @@ task clear_useful_resources_and_schedule: [:environment] do
   Hour.delete_all
   User.where(email:"tutor@tutor.com").delete_all
   User.where(first_name:"fake", last_name: "student").delete_all
+  Course.where(name:"DMMR").delete_all
 end
 
 desc "creates a test setup for you"
 task setup: [:clear_useful_resources_and_schedule, :environment] do
-  u = User.create(email:"tutor@tutor.com", first_name:"test", last_name:"tutor", role: :tutor, password:"veryword", username:"tutor@tutor.com")
+  u = User.create(email:"tutor@tutor.com", first_name:"test", last_name:"tutor", role: :tutor, password:"veryword")
   for x in 0..30 do
-    User.create(email:(x.to_s() +"automated@me.com"), username:x.to_s(), first_name:"fake", last_name:"student", role: :student, password:"veryword")
+    User.create(email:(x.to_s() +"automated@me.com"), first_name:"fake", last_name:"student", role: :student, password:"veryword")
   end
-  c = Course.first
-  c.update(name:"DMMR")
+  c = Course.create(name:"DMMR")
   monday = Date.today.beginning_of_week
   last_monday = monday - 7.days
   for x in 0..4 do
