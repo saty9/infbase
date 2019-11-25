@@ -140,25 +140,14 @@ ActiveRecord::Schema.define(version: 2019_11_25_154045) do
   create_table "reports", force: :cascade do |t|
     t.integer "students"
     t.text "comment"
+    t.boolean "completed"
     t.bigint "teaching_session_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["teaching_session_id"], name: "index_reports_on_teaching_session_id"
   end
 
-  create_table "tags", force: :cascade do |t|
-    t.bigint "topic_id"
-    t.bigint "report_id"
-    t.bigint "question_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["question_id"], name: "index_tags_on_question_id"
-    t.index ["report_id"], name: "index_tags_on_report_id"
-    t.index ["topic_id"], name: "index_tags_on_topic_id"
-  end
-
   create_table "teaching_sessions", force: :cascade do |t|
-    t.time "start_time"
     t.bigint "tutor_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -194,10 +183,8 @@ ActiveRecord::Schema.define(version: 2019_11_25_154045) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "biography"
-    t.string "username", default: "email", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["username"], name: "index_users_on_username", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
@@ -219,9 +206,6 @@ ActiveRecord::Schema.define(version: 2019_11_25_154045) do
   add_foreign_key "report_topics", "reports"
   add_foreign_key "report_topics", "topics"
   add_foreign_key "reports", "teaching_sessions", on_delete: :cascade
-  add_foreign_key "tags", "questions"
-  add_foreign_key "tags", "reports"
-  add_foreign_key "tags", "topics"
   add_foreign_key "teaching_sessions", "hours"
   add_foreign_key "teaching_sessions", "users", column: "tutor_id"
   add_foreign_key "useful_resources", "courses"
