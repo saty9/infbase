@@ -3,7 +3,12 @@ class UsefulResourcesController < ApplicationController
 
   # GET /useful_resources
   def index
-    @useful_resources = UsefulResource.all
+    if params[:course_id]
+      @useful_resources = UsefulResource.where(course_id: params[:course_id])
+    else
+      @useful_resources = UsefulResource.all
+    end
+
     authorize @useful_resources
     render json: @useful_resources
   end
