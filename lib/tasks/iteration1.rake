@@ -13,9 +13,9 @@ end
 
 desc "creates a test setup for you"
 task setup: [:clear_useful_resources_and_schedule, :environment] do
-  u = User.create(email:"tutor@tutor.com", first_name:"test", last_name:"tutor", role: :tutor, password:"veryword")
+  u = User.create(username:"tutor@tutor.com", first_name:"test", last_name:"tutor", role: :tutor, password:"veryword")
   for x in 0..30 do
-    User.create(email:(x.to_s() +"automated@me.com"), first_name:"fake", last_name:"student", role: :student, password:"veryword")
+    User.create(username:(x.to_s() +"automated@me.com"), first_name:"fake", last_name:"student", role: :student, password:"veryword")
   end
   c = Course.create(name:"DMMR")
   monday = Date.today.beginning_of_week
