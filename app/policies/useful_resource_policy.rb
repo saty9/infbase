@@ -11,7 +11,11 @@ class UsefulResourcePolicy < ApplicationPolicy
   end
 
   def show?
-    true
+    if user.is_staff?
+      true
+    else
+      not useful_resource.restricted
+    end
   end
 
   def create?

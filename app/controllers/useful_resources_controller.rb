@@ -8,6 +8,9 @@ class UsefulResourcesController < ApplicationController
     else
       @useful_resources = UsefulResource.all
     end
+    unless current_user.is_staff?
+      @useful_resources = @useful_resources.where(restricted: false)
+    end
 
     authorize @useful_resources
     render json: @useful_resources
@@ -54,6 +57,6 @@ class UsefulResourcesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def useful_resource_params
-      params.require(:useful_resource).permit(:body, :course_id)
+      params.require(:useful_resource).permit(:body, :course_id, :restricted)
     end
 end
