@@ -3,12 +3,11 @@
 #
 # Table name: teaching_sessions
 #
-#  id         :bigint(8)        not null, primary key
-#  start_time :time
-#  tutor_id   :bigint(8)
+#  id         :bigint           not null, primary key
+#  tutor_id   :bigint
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  hour_id    :bigint(8)
+#  hour_id    :bigint
 #  start_date :date
 #
 

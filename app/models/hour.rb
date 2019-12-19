@@ -4,7 +4,7 @@
 #
 # Table name: hours
 #
-#  id         :bigint(8)        not null, primary key
+#  id         :bigint           not null, primary key
 #  start      :time
 #  end        :time
 #  created_at :datetime         not null

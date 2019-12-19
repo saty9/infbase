@@ -4,9 +4,9 @@
 #
 # Table name: question_tags
 #
-#  id          :bigint(8)        not null, primary key
-#  topic_id    :bigint(8)
-#  question_id :bigint(8)
+#  id          :bigint           not null, primary key
+#  topic_id    :bigint
+#  question_id :bigint
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #

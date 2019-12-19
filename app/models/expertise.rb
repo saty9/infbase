@@ -4,9 +4,9 @@
 #
 # Table name: expertises
 #
-#  id         :bigint(8)        not null, primary key
-#  course_id  :bigint(8)
-#  tutor_id   :bigint(8)
+#  id         :bigint           not null, primary key
+#  course_id  :bigint
+#  tutor_id   :bigint
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
