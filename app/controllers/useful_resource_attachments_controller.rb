@@ -54,6 +54,7 @@ class UsefulResourceAttachmentsController < ApplicationController
     end
 
     def creation_params
+      params.require([:useful_resource_id, :document])
       params.permit(:useful_resource_id, :document)
     end
 end
