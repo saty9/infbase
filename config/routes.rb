@@ -23,6 +23,7 @@ Rails.application.routes.draw do
       get 'stats', on: :collection
     end
     resources :useful_resources
+    resources :useful_resource_attachments
 
     devise_for :users,
                path: '',

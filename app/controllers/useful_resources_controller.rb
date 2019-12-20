@@ -13,7 +13,7 @@ class UsefulResourcesController < ApplicationController
     end
 
     authorize @useful_resources
-    render json: @useful_resources
+    render json: @useful_resources.as_json( include: {useful_resource_attachments: {only: [:id], methods: [:file]}})
   end
 
   # GET /useful_resources/1
