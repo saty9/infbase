@@ -20,7 +20,7 @@ class UsefulResourceAttachmentsController < ApplicationController
 
     authorize @useful_resource_attachment
     if @useful_resource_attachment.save
-      render json: @useful_resource_attachment, status: :created, location: @useful_resource_attachment
+      render json: @useful_resource_attachment.as_json(methods: [:file]), status: :created, location: @useful_resource_attachment
     else
       render json: @useful_resource_attachment.errors, status: :unprocessable_entity
     end
