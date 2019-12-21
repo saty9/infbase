@@ -75,7 +75,7 @@ class QuestionsController < ApplicationController
       params[:tags].each do |tag|
         print(tag)
         if tag.is_a? String
-          topic = Topic.find_or_create(name: tag.titleize)
+          topic = Topic.first_or_create(name: tag.titleize)
           tag_id = topic.id
         else
           tag_id = tag[:id]
