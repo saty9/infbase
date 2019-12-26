@@ -52,11 +52,11 @@ class QuestionsController < ApplicationController
   # GET /questions/1.json
   def show
     Question.increment_counter(:views, @question.id)
-    exposed_attributes = [:id, :title, :body, :created_at, :course_id, :votes]
+    exposed_attributes = [:id, :title, :body, :created_at, :course_id, :votes, :updated_at, :user_id]
     out = @question.as_json(only:exposed_attributes,
                             include: {
                                 topics: { only: %i[id name] },
-                                answers: { only: %i[id body created_at],
+                                answers: { only: %i[id body created_at updated_at],
                                            include: :user }
                             })
     out[:voted] = @question.question_votes.where(user:current_user).exists?
