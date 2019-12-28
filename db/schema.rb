@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_19_214019) do
+ActiveRecord::Schema.define(version: 2019_12_27_093345) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,6 +91,16 @@ ActiveRecord::Schema.define(version: 2019_12_19_214019) do
     t.string "jti", null: false
     t.datetime "exp", null: false
     t.index ["jti"], name: "index_jwt_blacklist_on_jti"
+  end
+
+  create_table "question_followups", force: :cascade do |t|
+    t.bigint "question_id"
+    t.bigint "question_followup_id"
+    t.string "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_followup_id"], name: "index_question_followups_on_question_followup_id"
+    t.index ["question_id"], name: "index_question_followups_on_question_id"
   end
 
   create_table "question_tags", force: :cascade do |t|
@@ -204,6 +214,8 @@ ActiveRecord::Schema.define(version: 2019_12_19_214019) do
   add_foreign_key "expertises", "users", column: "tutor_id"
   add_foreign_key "interests", "teaching_sessions", on_delete: :cascade
   add_foreign_key "interests", "users"
+  add_foreign_key "question_followups", "question_followups", name: "parent", on_delete: :cascade
+  add_foreign_key "question_followups", "questions", on_delete: :cascade
   add_foreign_key "question_tags", "questions", on_delete: :cascade
   add_foreign_key "question_tags", "topics"
   add_foreign_key "question_votes", "questions", on_delete: :cascade

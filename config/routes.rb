@@ -10,6 +10,8 @@ Rails.application.routes.draw do
         post 'remove_vote'
       end
     end
+    resources :question_followups
+
     resources :teaching_sessions, only: %i[index show] do
       get 'forecast', on: :collection
     end
