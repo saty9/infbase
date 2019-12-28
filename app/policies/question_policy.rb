@@ -19,7 +19,7 @@ class QuestionPolicy < ApplicationPolicy
   end
 
   def update?
-    user.is_staff? or question.user
+    user.is_staff? or question.user == @user
   end
 
 
