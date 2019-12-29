@@ -24,7 +24,12 @@ Rails.application.routes.draw do
     resources :topics do
       get 'stats', on: :collection
     end
-    resources :useful_resources
+    resources :useful_resources do
+      member do
+        post 'vote_for'
+        post 'remove_vote'
+      end
+    end
     resources :useful_resource_attachments
 
     devise_for :users,

@@ -13,4 +13,5 @@
 class UsefulResource < ApplicationRecord
   belongs_to :course
   has_many :useful_resource_attachments
+  has_many :resource_votes
 end

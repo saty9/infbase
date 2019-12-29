@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_28_120754) do
+ActiveRecord::Schema.define(version: 2019_12_29_162123) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -158,6 +158,15 @@ ActiveRecord::Schema.define(version: 2019_12_28_120754) do
     t.index ["teaching_session_id"], name: "index_reports_on_teaching_session_id"
   end
 
+  create_table "resource_votes", force: :cascade do |t|
+    t.bigint "useful_resource_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["useful_resource_id"], name: "index_resource_votes_on_useful_resource_id"
+    t.index ["user_id"], name: "index_resource_votes_on_user_id"
+  end
+
   create_table "teaching_sessions", force: :cascade do |t|
     t.bigint "tutor_id"
     t.datetime "created_at", null: false
@@ -187,6 +196,7 @@ ActiveRecord::Schema.define(version: 2019_12_28_120754) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "restricted", default: false, null: false
+    t.integer "votes", default: 0
     t.index ["course_id"], name: "index_useful_resources_on_course_id"
   end
 
@@ -227,6 +237,8 @@ ActiveRecord::Schema.define(version: 2019_12_28_120754) do
   add_foreign_key "report_topics", "reports"
   add_foreign_key "report_topics", "topics"
   add_foreign_key "reports", "teaching_sessions", on_delete: :cascade
+  add_foreign_key "resource_votes", "useful_resources", on_delete: :cascade
+  add_foreign_key "resource_votes", "users", on_delete: :cascade
   add_foreign_key "teaching_sessions", "hours"
   add_foreign_key "teaching_sessions", "users", column: "tutor_id"
   add_foreign_key "useful_resource_attachments", "useful_resources", on_delete: :cascade
