@@ -19,6 +19,7 @@ class AnswersController < ApplicationController
     @answer = Answer.new(answer_params)
     @answer.user = current_user
 
+    authorize @answer
     if @answer.save
       @answer.question.update(resolved: true)
       render json: @answer.as_json, status: :created, location: @answer
@@ -30,6 +31,7 @@ class AnswersController < ApplicationController
   # PATCH/PUT /answers/1
   # PATCH/PUT /answers/1.json
   def update
+    authorize @answer
     if @answer.update(answer_params)
       @answer.question.update(resolved: true)
       render :show, status: :ok, location: @answer
@@ -42,8 +44,8 @@ class AnswersController < ApplicationController
   # DELETE /answers/1.json
   def destroy
     question = @answer.question
+    authorize @answer
     @answer.destroy
-
     # un-set resolved flag if no answers left
     unless question.answers.exists?
       question.update(resolved: false)
