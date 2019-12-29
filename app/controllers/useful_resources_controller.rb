@@ -1,5 +1,5 @@
 class UsefulResourcesController < ApplicationController
-  before_action :set_useful_resource, only: [:show, :update, :destroy]
+  before_action :set_useful_resource, only: [:show, :update, :destroy, :vote_for, :remove_vote]
 
   # GET /useful_resources
   def index

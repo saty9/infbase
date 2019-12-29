@@ -6,10 +6,10 @@ class ResourceVote < ApplicationRecord
   def update_resource
     if @_new_record_before_last_commit
       #creating
-      resource.increment!(:votes,1)
+      useful_resource.increment!(:votes,1)
     elsif @destroyed
       #destroying
-      resource.decrement!(:votes,1)
+      useful_resource.decrement!(:votes,1)
     end
   end
 
