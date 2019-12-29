@@ -8,7 +8,7 @@ class InterestsController < ApplicationController
   def create
     @interest = current_user.interests.new(interest_params)
     @interest.save
-    render json: current_user.interests
+    render json: @interest.teaching_session.interests
   end
 
   def destroy
