@@ -23,7 +23,7 @@ class ExpertisePolicy < ApplicationPolicy
   end
 
   def destroy?
-    user.role == "admin" or expertise.user == user
+    user.role == "admin" or expertise.tutor == user
   end
 
 end
