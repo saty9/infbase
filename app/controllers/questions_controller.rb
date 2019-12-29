@@ -18,13 +18,13 @@ class QuestionsController < ApplicationController
     @questions = @questions.all.select('votes AS vote_count', :title, :id, :views, :created_at, :resolved)
     case params[:order_by]
     when "vote_count"
-      @questions = @questions.order('vote_count desc')
+      @questions = @questions.order('vote_count desc, questions.created_at desc')
     when "posted"
       @questions = @questions.order('questions.created_at desc')
     when "view_count"
-      @questions = @questions.order('questions.views desc')
+      @questions = @questions.order('questions.views desc, questions.created_at desc')
     else
-      @questions = @questions.order('vote_count desc')
+      @questions = @questions.order('vote_count desc, questions.created_at desc')
     end
     authorize @questions
 
