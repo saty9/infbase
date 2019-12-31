@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_29_162123) do
+ActiveRecord::Schema.define(version: 2019_12_31_122059) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -190,6 +190,15 @@ ActiveRecord::Schema.define(version: 2019_12_29_162123) do
     t.index ["useful_resource_id"], name: "index_useful_resource_attachments_on_useful_resource_id"
   end
 
+  create_table "useful_resource_tags", force: :cascade do |t|
+    t.bigint "useful_resource_id"
+    t.bigint "topic_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["topic_id"], name: "index_useful_resource_tags_on_topic_id"
+    t.index ["useful_resource_id"], name: "index_useful_resource_tags_on_useful_resource_id"
+  end
+
   create_table "useful_resources", force: :cascade do |t|
     t.text "body"
     t.bigint "course_id"
@@ -242,5 +251,7 @@ ActiveRecord::Schema.define(version: 2019_12_29_162123) do
   add_foreign_key "teaching_sessions", "hours"
   add_foreign_key "teaching_sessions", "users", column: "tutor_id"
   add_foreign_key "useful_resource_attachments", "useful_resources", on_delete: :cascade
+  add_foreign_key "useful_resource_tags", "topics", on_delete: :cascade
+  add_foreign_key "useful_resource_tags", "useful_resources", on_delete: :cascade
   add_foreign_key "useful_resources", "courses"
 end

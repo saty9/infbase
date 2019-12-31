@@ -14,4 +14,6 @@ class Topic < ApplicationRecord
   has_many :report_topics
   has_many :question_tags
   has_many :questions, through: :question_tags
+  has_many :useful_resource_tags
+  has_many :useful_resources, through: :useful_resource_tags
 end
