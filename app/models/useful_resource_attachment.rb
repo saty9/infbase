@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: useful_resource_attachments
+#
+#  id                 :bigint           not null, primary key
+#  useful_resource_id :bigint
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#
+
 include Rails.application.routes.url_helpers
 
 class UsefulResourceAttachment < ApplicationRecord

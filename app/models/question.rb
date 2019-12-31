@@ -14,6 +14,7 @@
 #  updated_at          :datetime         not null
 #  views               :integer          default(0)
 #  votes               :integer          default(0)
+#  resolved            :boolean          default(FALSE)
 #
 
 require 'elasticsearch/model'
