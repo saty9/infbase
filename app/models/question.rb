@@ -30,6 +30,7 @@ class Question < ApplicationRecord
   has_many :question_tags, dependent: :delete_all
   has_many :topics, through: :question_tags
   has_many :question_votes
+  has_many :question_followups, -> { order(:created_at => :asc) }
   scope :user, -> (user_id) { where user_id: user_id }
   scope :course, -> (course_id) { where course_id: course_id}
   scope :tagged_with, -> (tag_ids) { joins(:question_tags).where( 'question_tags.topic_id': tag_ids ) }

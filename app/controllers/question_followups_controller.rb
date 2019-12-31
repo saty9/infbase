@@ -51,6 +51,6 @@ class QuestionFollowupsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def question_followup_params
-      params.require(:question_followup).permit(:belongs_to, :belongs_to, :body)
+      params.require(:question_followup).permit(:question_id, :question_followup_id, :body)
     end
 end

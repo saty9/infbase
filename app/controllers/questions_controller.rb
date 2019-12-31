@@ -57,7 +57,9 @@ class QuestionsController < ApplicationController
                             include: {
                                 topics: { only: %i[id name] },
                                 answers: { only: %i[id body created_at updated_at],
-                                           include: :user }
+                                           include: :user },
+
+                                question_followups: {only: [:id, :question_followup_id, :body]},
                             })
     out[:voted] = @question.question_votes.where(user:current_user).exists?
     authorize @question
