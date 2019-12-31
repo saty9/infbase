@@ -73,12 +73,15 @@ class QuestionsController < ApplicationController
 
     if @question.save
       params[:tags].each do |tag|
-        print(tag)
-        if tag.is_a? String
-          topic = Topic.first_or_create(name: tag.titleize)
-          tag_id = topic.id
+        if tag.is_a? ActionController::Parameters
+          if not tag[:id]
+            topic = Topic.where(name: tag[:name].titleize).first_or_create(name: tag[:name].titleize)
+            tag_id = topic.id
+          else
+            tag_id = tag[:id]
+          end
         else
-          tag_id = tag[:id]
+          next
         end
         QuestionTag.create(question: @question, topic_id: tag_id)
       end

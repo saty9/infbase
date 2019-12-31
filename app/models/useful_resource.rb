@@ -17,4 +17,6 @@ class UsefulResource < ApplicationRecord
   has_many :resource_votes
   has_many :useful_resource_tags
   has_many :topics, through: :useful_resource_tags
+
+  scope :tagged_with, -> (tag_ids) { joins(:useful_resource_tags).where( 'useful_resource_tags.topic_id': tag_ids ) }
 end
