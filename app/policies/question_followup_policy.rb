@@ -19,15 +19,13 @@ class QuestionFollowupPolicy < ApplicationPolicy
   end
 
   def update?
-    user.is_staff? or
-        (question_followup.user == user and not QuestionFollowup.where(parent:@question_followup).exists?)
+    user.is_staff?
   end
 
 
 
   def destroy?
-    user.is_staff? or
-        (question_followup.user == user and not QuestionFollowup.where(parent:@question_followup).exists?)
+    user.is_staff?
   end
 
 
