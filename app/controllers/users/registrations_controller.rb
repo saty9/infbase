@@ -1,10 +1,15 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
+  #prepend_before_action :authenticate_scope!, only: [:show, :show_user]
   respond_to :json
 
   def show
     render json: current_user.attach_info
+  end
+
+  def show_user
+    render User.find(params[:id]).as_json(only: [:id, :role, :first_name, :last_name, :biography])
   end
 
   def create
