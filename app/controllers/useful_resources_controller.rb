@@ -14,7 +14,7 @@ class UsefulResourcesController < ApplicationController
       @useful_resources = @useful_resources.where(restricted: false)
     end
 
-    @useful_resources = @useful_resources.order("votes")
+    @useful_resources = @useful_resources.order("votes DESC")
     @user_votes = ResourceVote.where(user: current_user)
     authorize @useful_resources
     render json: [@useful_resources.as_json(

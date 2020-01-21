@@ -7,6 +7,7 @@ task clear_useful_resources_and_schedule: [:environment] do
   Interest.delete_all
   Hour.delete_all
   Question.delete_all
+  Question.__elasticsearch__.refresh_index!
   Expertise.delete_all
   User.delete_all
   Course.delete_all
@@ -45,8 +46,13 @@ task setup: [:clear_useful_resources_and_schedule, :environment] do
   for x in 0..10 do
     q = Question.create(title: "Question title " + x.to_s, body: "Question Body", user: student, course: c, teaching_session:s1 )
     q.question_followups.create(body: "Is this a useful followup question")
-    q.answers.create(body: "This is an answer")
+    if (10 == x or [true, false, true].sample) and x != 0
+      q.answers.create(body: "This is an answer", user: tutor)
+      q.update(resolved: true)
+    end
   end
   c.useful_resources.create(body: "# Title\nnormal __Bold__ _italics_ ~~cross~~\n**bold** *italics*")
+  c.useful_resources.create(body: "# Maths is hard")
+
 end
 end
