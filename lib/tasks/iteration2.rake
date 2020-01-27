@@ -34,11 +34,20 @@ task setup: [:clear_useful_resources_and_schedule, :environment] do
     s1 = TeachingSession.create(start_date:start_time, tutor:tutor, hour:h)
     s2 = TeachingSession.create(start_date:start_time + 7.days, tutor:tutor, hour: h)
     s3 = TeachingSession.create(start_date:start_time + 14.days, tutor:tutor, hour: h)
+    report_students = rand(3..13)
+    interested_students = rand(0..20)
+    if x == 4
+      report_students = 10
+      interested_students = 5
+    elsif x==3
+      report_students = 1
+      interested_students = 10
+    end
     for session in [s1,s2,s3] do
       if session.start_date.past?
-        session.report.update(students: rand(3..13))
+        session.report.update(students: report_students)
       end
-      users = User.where(first_name:"fake", last_name:"student").all[0..rand(30)]
+      users = User.where(first_name:"fake", last_name:"student").all[0..interested_students]
       users.each { |u| Interest.create(user:u,teaching_session:session) }
       session.save()
     end
