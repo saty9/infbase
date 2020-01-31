@@ -17,12 +17,86 @@
 #  updated_at             :datetime         not null
 #  biography              :string
 #
+require 'devise/strategies/authenticatable'
+
+module Devise
+  module Models
+    module RemoteAuthenticable
+      extend ActiveSupport::Concern
+
+      module ClassMethods
+        def serialize_from_session(id)
+          resource = self.new
+          resource.id = id
+          resource
+        end
+
+        def serialize_into_session(record)
+          [record.id]
+        end
+
+      end
+
+      def remote_authentication(authentication_hash)
+        # TODO pull in first and last name and email from a server if that's possible
+
+        if (authentication_hash != nil && authentication_hash != "")
+          self.first_name="remote"
+          self.last_name="record"
+          self.email=authentication_hash+ "@remote.com"
+          self.password=(0...50).map { ('a'..'z').to_a[rand(26)] }.join
+          return self.save!
+        else
+          return false
+        end
+      end
+    end
+  end
+
+  module Strategies
+    class RemoteAuthenticatable < Authenticatable
+      #
+      # For an example check : https://github.com/plataformatec/devise/blob/master/lib/devise/strategies/database_authenticatable.rb
+      #
+      # Method called by warden to authenticate a resource.
+      #
+      def authenticate!
+        auth_params = env['REMOTE_USER']
+
+        #
+        # mapping.to is a wrapper over the resource model
+        #
+        if auth_params
+          resource = mapping.to.find_or_create_by(remoteid: auth_params)
+        else
+          pass!
+        end
+
+        return fail! unless resource
+
+        # remote_authentication method is defined in Devise::Models::RemoteAuthenticatable
+        #
+        # validate is a method defined in Devise::Strategies::Authenticatable. It takes
+        #a block which must return a boolean value.
+        #
+        # If the block returns true the resource will be loged in
+        # If the block returns false the authentication will fail!
+        #
+        if validate(resource){ resource.remote_authentication(auth_params) }
+          success!(resource)
+        end
+      end
+    end
+  end
+
+end
 
 class User < ApplicationRecord
   include Rails.application.routes.url_helpers
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
+         :remote_authenticable,
          :jwt_authenticatable,
          jwt_revocation_strategy: JWTBlacklist
 

@@ -14,6 +14,7 @@ class ProxyToUi < Rack::Proxy
       perform_request(env)
     else
       # just regular
+      env['REMOTE_USER']
       @app.call(env)
     end
   end
