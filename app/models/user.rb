@@ -58,6 +58,11 @@ module Devise
       #
       # For an example check : https://github.com/plataformatec/devise/blob/master/lib/devise/strategies/database_authenticatable.rb
       #
+
+      # this strategy is always valid for http auth
+      def valid_for_http_auth?
+        true
+      end
       # Method called by warden to authenticate a resource.
       #
       def authenticate!
@@ -67,9 +72,15 @@ module Devise
         # mapping.to is a wrapper over the resource model
         #
         if auth_params
-          resource = mapping.to.find_or_create_by(remoteid: auth_params)
+          created = false
+          resource = mapping.to.find_or_create_by(remoteid: auth_params) do |new_object|
+            created = true
+          end
+          if created # pull in user data
+            resource.remote_authentication(auth_params)
+          end
         else
-          pass!
+          return pass!
         end
 
         return fail! unless resource
@@ -82,7 +93,7 @@ module Devise
         # If the block returns true the resource will be loged in
         # If the block returns false the authentication will fail!
         #
-        if validate(resource){ resource.remote_authentication(auth_params) }
+        if validate(resource)
           success!(resource)
         end
       end
