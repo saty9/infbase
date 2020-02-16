@@ -59,9 +59,13 @@ module Devise
       # For an example check : https://github.com/plataformatec/devise/blob/master/lib/devise/strategies/database_authenticatable.rb
       #
 
-      # this strategy is always valid for http auth
+      # this strategy is only valid when accessing login path
       def valid_for_http_auth?
-        true
+        env['REQUEST_PATH'] == '/api/login'
+      end
+
+      def valid_for_params_auth?
+        false
       end
       # Method called by warden to authenticate a resource.
       #

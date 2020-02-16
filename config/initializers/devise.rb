@@ -268,7 +268,9 @@ Devise.setup do |config|
   # end
   config.warden do |manager|
     manager.strategies.add(:remote, Devise::Strategies::RemoteAuthenticatable)
+    db = manager.default_strategies(:scope => :user).pop
     manager.default_strategies(:scope => :user).push :remote
+    manager.default_strategies(:scope => :user).push db
   end
 
 
