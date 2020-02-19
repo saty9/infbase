@@ -84,7 +84,7 @@ module Devise
             resource.remote_authentication(auth_params)
           end
         else
-          return pass!
+          return pass
         end
 
         return fail! unless resource
