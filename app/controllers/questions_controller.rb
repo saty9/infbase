@@ -56,7 +56,7 @@ class QuestionsController < ApplicationController
     out = @question.as_json(only:exposed_attributes,
                             include: {
                                 topics: { only: %i[id name] },
-                                answers: { only: %i[id body created_at updated_at],
+                                answers: { only: %i[id body created_at updated_at user_role],
                                            include: :user },
 
                                 question_followups: {only: [:id, :question_followup_id, :body]},

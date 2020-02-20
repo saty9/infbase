@@ -32,9 +32,11 @@ class AnswersController < ApplicationController
   # PATCH/PUT /answers/1.json
   def update
     authorize @answer
-    if @answer.update(answer_params)
+
+    update_params = answer_params.to_h.merge!(:user => current_user, :user_role => current_user.role)
+    if @answer.update(update_params)
       @answer.question.update(resolved: true)
-      render :show, status: :ok, location: @answer
+      render json: @answer
     else
       render json: @answer.errors, status: :unprocessable_entity
     end
@@ -61,6 +63,6 @@ class AnswersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def answer_params
-    params.require(:answer).permit(:body, :question_id, :user_id)
+    params.require(:answer).permit(:body, :question_id)
   end
 end
