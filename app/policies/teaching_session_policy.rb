@@ -26,4 +26,8 @@ class TeachingSessionPolicy < ApplicationPolicy
     user.role == "admin"
   end
 
+  def get_historical_stats?
+    user.role == "admin"
+  end
+
 end

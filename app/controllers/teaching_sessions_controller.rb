@@ -23,4 +23,14 @@ class TeachingSessionsController < ApplicationController
     render json: sessions.as_json(methods: [:forecast_busyness, :start_hour])
   end
 
+  def history
+    authorize TeachingSession, :get_historical_stats?
+    params.require(:range)
+    @query = TeachingSession.where('start_date > ?',Date.today - params[:range].to_i.months)
+    @query = @query.where('start_date < ?', Date.today)
+    @query = @query.group(:dow).joins(:report,:hour).group(:start).average(:students)
+
+    render json: @query
+  end
+
 end

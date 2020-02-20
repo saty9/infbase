@@ -14,6 +14,7 @@ Rails.application.routes.draw do
 
     resources :teaching_sessions, only: %i[index show] do
       get 'forecast', on: :collection
+      get 'history', on: :collection
     end
     resources :course_members
     resources :courses, only: %i[index show] do
