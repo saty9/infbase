@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_20_171358) do
+ActiveRecord::Schema.define(version: 2020_02_21_121437) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -100,6 +100,7 @@ ActiveRecord::Schema.define(version: 2020_02_20_171358) do
     t.string "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "resolved", default: false, null: false
     t.index ["question_followup_id"], name: "index_question_followups_on_question_followup_id"
     t.index ["question_id"], name: "index_question_followups_on_question_id"
   end

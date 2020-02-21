@@ -1,5 +1,5 @@
 class QuestionFollowupsController < ApplicationController
-  before_action :set_question_followup, only: [:show, :update, :destroy]
+  before_action :set_question_followup, only: [:show, :update, :destroy, :resolve]
 
   # GET /question_followups
   def index
@@ -41,6 +41,12 @@ class QuestionFollowupsController < ApplicationController
   def destroy
     authorize @question_followup
     @question_followup.destroy
+  end
+
+  def resolve
+    authorize @question_followup, :update?
+    @question_followup.resolve
+    #@question_followup.destroy
   end
 
   private
