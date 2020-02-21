@@ -20,6 +20,9 @@ class QuestionFollowupsController < ApplicationController
     @question_followup = QuestionFollowup.new(question_followup_params)
 
     authorize @question_followup
+    if current_user.is_staff?
+      @question_followup.resolved = true
+    end
     if @question_followup.save
       render json: @question_followup, status: :created, location: @question_followup
     else
