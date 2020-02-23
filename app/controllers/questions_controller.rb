@@ -28,9 +28,9 @@ class QuestionsController < ApplicationController
     end
     authorize @questions
 
-    render json: @questions.as_json(include: {
-                                      topics: { only: %i[id name] }
-                                    })
+    render json: @questions.includes(:topics).as_json(include: {
+        topics: {only: %i[id name]}
+    })
   end
 
   def search
