@@ -9,7 +9,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def show_user
-    render json: User.find(params[:id]).attach_info
+    @user = User.find(params[:id])
+    authorize @user, :show?
+    render json: @user.attach_info
   end
 
   def create
