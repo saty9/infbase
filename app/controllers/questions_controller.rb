@@ -16,6 +16,7 @@ class QuestionsController < ApplicationController
     @questions = @questions.course(params[:course]) if params[:course].present?
     @questions = @questions.tagged_with(params[:tag]) if params[:tag].present?
     @questions = @questions.all.select('votes AS vote_count', :title, :id, :views, :created_at, :resolved)
+
     case params[:order_by]
     when "vote_count"
       @questions = @questions.order('vote_count desc, questions.created_at desc')
@@ -28,8 +29,10 @@ class QuestionsController < ApplicationController
     end
     authorize @questions
 
-    render json: @questions.includes(:topics).as_json(include: {
-        topics: {only: %i[id name]}
+
+    render json: @questions.includes(:topics).includes(:question_followups).as_json(include: {
+        topics: {only: %i[id name]},
+        question_followups: {only: [:resolved]}
     })
   end
 
