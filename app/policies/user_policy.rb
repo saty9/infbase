@@ -11,7 +11,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def show?
-    user.role == 'admin' || user == current_user
+    model_user.role != 'student' || user == model_user
   end
 
   def send_email?
