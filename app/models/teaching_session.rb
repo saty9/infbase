@@ -13,6 +13,7 @@
 
 class TeachingSession < ApplicationRecord
   after_create :create_report
+  before_save :add_dow
 
   belongs_to :tutor, class_name: 'User'
   belongs_to :hour
@@ -96,6 +97,10 @@ class TeachingSession < ApplicationRecord
 
   def start_hour
     self.hour.start.hour
+  end
+
+  def add_dow
+    self.dow = self.start_date.wday
   end
 
 end
