@@ -61,7 +61,7 @@ module Devise
 
       # this strategy is only valid when accessing login path
       def valid_for_http_auth?
-        env['REQUEST_PATH'] == '/api/login'
+        env['REQUEST_PATH'] == '/api/login' and not env['RAW_POST_DATA']
       end
 
       def valid_for_params_auth?
