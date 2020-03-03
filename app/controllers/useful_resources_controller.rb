@@ -53,7 +53,12 @@ class UsefulResourcesController < ApplicationController
         UsefulResourceTag.create(useful_resource: @useful_resource, topic_id: tag_id)
       end
 
-      render json: @useful_resource, status: :created, location: @useful_resource
+      render json: @useful_resource.as_json(
+          include: {
+              useful_resource_attachments: {only: [:id], methods: [:file]},
+              topics: { only: [:id, :name] }
+          }
+      ), status: :created, location: @useful_resource
     else
       render json: @useful_resource.errors, status: :unprocessable_entity
     end
