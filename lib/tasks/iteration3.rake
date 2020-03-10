@@ -1,16 +1,16 @@
 namespace :iteration3 do
 
 task clear_useful_resources_and_schedule: [:environment] do
-  TeachingSession.delete_all
-  UsefulResource.delete_all
-  Report.delete_all
-  Interest.delete_all
-  Hour.delete_all
-  Question.delete_all
+  TeachingSession.destroy_all
+  UsefulResource.destroy_all
+  Report.destroy_all
+  Interest.destroy_all
+  Hour.destroy_all
+  Question.destroy_all
   Question.__elasticsearch__.refresh_index!
-  Expertise.delete_all
-  User.delete_all
-  Course.delete_all
+  Expertise.destroy_all
+  User.destroy_all
+  Course.destroy_all
 end
 
 desc "creates a test setup for you"
