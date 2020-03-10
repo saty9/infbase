@@ -25,6 +25,7 @@ class ProxyToUi < Rack::Proxy
       # do nothing
     else
       env['HTTP_HOST'] = 'localhost:8080'
+      env['HTTP_X_FORWARDED_PROTO'] = 'http'
     end
     env
   end
